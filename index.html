@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+Hello! Welcome to the source code of my personal website I made from scratch.
+Want to learn more? Feel free to contact me at me (at) andrewkdinh (dot) com.
+-->
+<!--
+Version: OpenPGP.js v4.6.2
+Comment: https://openpgpjs.org
+xjMEXFFDbxYJKwYBBAHaRw8BAQdAzZSE3iOBbvTEury4SC0gMpmz308im9v0
+bob+t8n2ASnNOSJhbmRyZXdrZGluaEBwcm90b25tYWlsLmNvbSIgPGFuZHJl
+d2tkaW5oQHByb3Rvbm1haWwuY29tPsJ3BBAWCgAfBQJcUUNvBgsJBwgDAgQV
+CAoCAxYCAQIZAQIbAwIeAQAKCRCtWJ9G+9xC9qU1AQCZLQoSxWqsZv+/0AKO
+ioNjA0CMydRD99UZr/7uIswPWQD/RYIbwniXopGCCGOGFRaMgr3jdrPiTVq9
+FEyTcrnWMQ/OOARcUUNvEgorBgEEAZdVAQUBAQdAOPKjRn/EmJQUCWbnwiM9
+zcQp0KJmesnhVTh/Ja1t2BcDAQgHwmEEGBYIAAkFAlxRQ28CGwwACgkQrVif
+RvvcQvZigwD+Kovjw0NQzgf8Q5SBhiS65EZ37MWLUOdP0VrTEiVuOnoBAPTg
+tffRRsorIL6z11w5dJyOS6VimCfAh49xR/4cqBgN
+=RVIZ
+-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Andrew Dinh - Software Engineer</title>
+	<link rel="canonical" href="https://andrewkdinh.com" />
+    <!-- https://www.favicon-generator.org/ -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="description" content="Andrew Dinh - Software engineer developing a better feature">
+    <meta name="keywords" content="Andrew Dinh, Andrew K Dinh, andrewkdinh, Gilroy, GECA, Gavilan College, Dr. TJ Owens Gilroy Early College Academy, computer science, UC Berkeley, University of California Berkeley, Apple">
+    <meta name="author" content="Andrew Dinh">
+    <!-- CSS -->
+    <!-- https://stackoverflow.com/a/46750893 -->
+    <!-- https://www.w3.org/TR/CSS21/media.html%23media-types -->
+    <link rel="stylesheet" media="all" href="css/general_v-3.css">
+    <link rel="stylesheet" media="screen,print" href="css/bootstrap.min.css">
+    <link rel="preload" media="screen" href="css/github-dark.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/github-dark.min.css"></noscript>
+    <!-- JavaScript -->
+    <!--[if IE]> <script defer src="https://polyfill.io/v3/polyfill.min.js?features=default%2Csmoothscroll"></script> <![endif]-->
+    <script defer src="js/jquery-3.5.1.min.js"></script>
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+    <script defer src="js/general_v-9.js"></script>
+    <!-- Prefetch content -->
+    <link rel="prefetch" href="img/logo.png">
+    <!-- Prefetch domains -->
+    <link rel="preconnect" href="https://plausible.andrewkdinh.com/" crossorigin>
+    <link rel="dns-prefetch" href="https://plausible.andrewkdinh.com/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Andrew Dinh">
+    <meta property="og:description" content="Andrew Dinh - Software engineer developing a better feature">
+    <meta property="og:site_name" content="Andrew Dinh">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/logo.png">
+    <meta property="og:url" content="https://andrewkdinh.com/">
+    <meta property="og:locale" content="en_US">
+    <!-- Twitter -->
+    <meta name="twitter:title" content="Andrew Dinh">
+    <meta name="twitter:description" content="Andrew Dinh - Software engineer developing a better feature">
+    <meta name="twitter:image" content="https://andrewkdinh.com/img/logo.png">
+    <meta name="twitter:site" content="@andrewkdinh">
+    <meta name="twitter:creator" content="@andrewkdinh">
+    <!-- Dublin Core -->
+    <!-- https://paladini.github.io/dublin-core-basics/ -->
+    <meta name="DC.Title" content="Andrew Dinh - Software engineer developing a better feature">
+    <meta name="DC.Creator" content="Andrew Dinh">
+    <meta name="DC.Subject" content="Andrew Dinh">
+    <meta name="DC.Description" content="Andrew Dinh - Software engineer developing a better feature">
+    <meta name="DC.Publisher" content="Andrew Dinh">
+    <meta name="DC.Contributor" content="Andrew Dinh">
+    <meta name="DC.Type" content="text">
+    <meta name="DC.Format" content="text/html">
+    <meta name="DC.Identifier" content="https://andrewkdinh.com">
+    <meta name="DC.Source" content="https://andrewkdinh.com">
+    <meta name="DC.Language" content="en">
+    <meta name="DC.Coverage" content="California, United States of America">
+    <meta name="DC.Rights" content="Copyright Andrew Dinh 2022">
+    <!-- https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html -->
+    <!--
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    -->
+    <!-- <meta name="format-detection" content="telephone=no"> -->
+    <!-- Stay standalone: https://gist.github.com/irae/1042167 -->
+    <!-- https://developers.google.com/search/reference/robots_meta_tag -->
+    <meta name="robots" content="index, all">
+    <!-- https://stackoverflow.com/a/24428525 -->
+    <base target="_blank">
+    <!-- https://web.dev/canonical/ -->
+    <!-- Web Mentions -->
+    <link rel="webmention" href="https://webmention.io/andrewkdinh.com/webmention">
+    <link rel="pingback" href="https://webmention.io/andrewkdinh.com/xmlrpc">
+    <!-- Request Dark Reader to disable itself -->
+    <!-- https://github.com/darkreader/darkreader/blob/main/CONTRIBUTING.md#disabling-dark-reader-on-your-site -->
+    <meta name="darkreader-lock">
+    <!-- https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/ -->
+    <meta property="fediverse:creator" content="@andrewkdinh@fosstodon.org"/>
+    <style>
+        /* Fonts here to reduce chaining requests */
+        @font-face {
+            font-family: "Arca Majora 3";
+            /* src: url(https://andrewkdinh.com/webfonts/ArcaMajora3-Bold.otf); */
+            src: url('webfonts/ArcaMajora3-Bold-subset.woff') format('woff2'),
+                url('webfonts/ArcaMajora3-Bold-subset.woff') format('woff');
+            font-display: swap; /* https://web.dev/font-display/ */
+        }
+        /*
+        @font-face {
+            font-family: "Helvetica";
+            src: url('webfonts/Helvetica-subset.woff') format('woff2'),
+                url('webfonts/Helvetica-subset.woff') format('woff');
+            font-display: swap;
+        }
+        */
+        body {
+            position: relative;
+            background-color: #0d1117 !important;
+            color: #f2f1ef !important;
+        }
+        #offline-resources,
+        .h-card,
+        .svg-defs {
+            display: none;
+        }
+    </style>
+    <!-- https://json-ld.org -->
+    <!-- https://validator.schema.org/ -->
+    <!-- https://search.google.com/structured-data/testing-tool -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Person",
+        "name": "Andrew Dinh",
+        "jobTitle": "Software Engineer",
+        "description": "Software engineer developing a better feature",
+        "inLanguage" : "en-US",
+        "isFamilyFriendly": "true",
+        "accountablePerson" : "Andrew Dinh",
+        "image": "img/profile.webp",
+        "gender": "male",
+        "nationality": "United States",
+        "mainEntityOfPage": "https://andrewkdinh.com",
+        "keywords": [
+            "Andrew Dinh",
+            "Andrew K Dinh",
+            "andrewkdinh",
+            "Gilroy",
+            "GECA",
+            "Gavilan College",
+            "Dr. TJ Owens Gilroy Early College Academy",
+            "computer science",
+            "UC Berkeley",
+            "University of California Berkeley",
+            "Vietnam",
+            "Apple"
+        ],
+        "url": "https://andrewkdinh.com",
+        "alumniOf": [
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "University of California, Berkeley",
+                "alternateName": "UC Berkeley",
+                "hasMap": "https://www.openstreetmap.org/relation/2814221",
+                "url": "https://www.berkeley.edu",
+                "sameAs": "https://en.wikipedia.org/wiki/University_of_California%2C_Berkeley"
+            },
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "Gavilan College",
+                "hasMap": "https://www.openstreetmap.org/way/27413619",
+                "url": "https://www.gavilan.edu",
+                "sameAs": "https://en.wikipedia.org/wiki/Gavilan_College"
+            },
+            {
+                "@type": "HighSchool",
+                "name": "Dr. TJ Owens Gilroy Early College Academy",
+                "alternateName": [
+                    "GECA",
+                    "Gilroy Early College Academy"
+                ],
+                "hasMap": "https://www.openstreetmap.org/way/807679190",
+                "url": "https://geca.gilroyunified.org",
+                "sameAs": "https://en.wikipedia.org/wiki/Gilroy_Early_College_Academy"
+            }
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "California",
+            "addressCountry": "United States"
+        },
+        "sameAs": [
+            "https://github.com/andrewkdinh",
+            "https://www.linkedin.com/in/andrewkdinh-com",
+            "https://www.instagram.com/andrewkdinh/",
+            "https://t.me/andrewkdinh",
+            "https://www.facebook.com/andrewkdinh",
+            "https://keybase.io/andrewkdinh",
+            "https://twitter.com/andrewkdinh",
+            "https://www.reddit.com/u/andrewkdinh",
+            "https://fosstodon.org/@andrewkdinh",
+            "https://news.ycombinator.com/user?id=andrewkdinh",
+            "https://gitlab.com/andrewkdinh",
+            "https://hub.docker.com/u/andrewkdinh",
+            "https://about.me/andrewkdinh",
+            "https://www.buymeacoffee.com/andrewkdinh",
+            "https://www.fiverr.com/andrewkdinh",
+            "https://opencollective.com/andrewkdinh",
+            "https://www.patreon.com/andrewkdinh",
+            "https://repl.it/@andrewkdinh",
+            "https://devpost.com/andrewkdinh",
+            "https://dribbble.com/andrewkdinh",
+            "https://www.indiehackers.com/andrewkdinh",
+            "https://dev.to/andrewkdinh",
+            "https://getmakerlog.com/@andrewkdinh",
+            "https://medium.com/@andrewkdinh",
+            "https://vimeo.com/andrewkdinh",
+            "https://www.pinterest.com/andrewkdinh/",
+            "https://soundcloud.com/andrewkdinh",
+            "https://www.twitch.tv/andrewkdinh",
+            "https://andrewkdinh.tumblr.com/",
+            "https://unsplash.com/@andrewkdinh",
+            "https://kit.co/andrewkdinh",
+            "https://gumroad.com/andrewkdinh",
+            "https://www.behance.net/andrewkdinh",
+            "https://codepen.io/andrewkdinh",
+            "https://ko-fi.com/andrewkdinh",
+            "https://readup.com/@andrewkdinh",
+            "https://mix.com/andrewkdinh",
+            "https://www.notion.so/andrewkdinh",
+            "https://page.fyi/@andrewkdinh",
+            "https://rive.app/a/andrewkdinh",
+            "https://bandcamp.com/andrewkdinh",
+            "https://www.codechef.com/users/andrewkdinh",
+            "https://andrewkdinh.contently.com/",
+            "https://www.codewars.com/users/andrewkdinh",
+            "https://creativemarket.com/users/andrewkdinh",
+            "https://www.crunchyroll.com/user/andrewkdinh",
+            "https://designspiration.com/andrewkdinh",
+            "https://www.deviantart.com/andrewkdinh",
+            "https://www.discogs.com/user/andrewkdinh",
+            "https://disqus.com/by/andrewkdinh/",
+            "https://www.ebay.com/usr/andrewkdinh",
+            "https://www.eyeem.com/u/andrewkdinh",
+            "https://community.fandom.com/wiki/User:Andrewkdinh",
+            "https://www.gamespot.com/profile/andrewkdinh/",
+            "https://giphy.com/channel/andrewkdinh",
+            "https://www.goodreads.com/andrewkdinh",
+            "https://gurushots.com/andrewkdinh/",
+            "https://freesound.org/people/andrewkdinh/",
+            "https://www.house-mixes.com/profile/andrewkdinh",
+            "https://www.houzz.com/user/andrewkdinh",
+            "https://hubpages.com/@andrewkdinh",
+            "https://www.instructables.com/member/andrewkdinh/",
+            "https://issuu.com/andrewkdinh",
+            "https://imghack.com/user/andrewkdinh",
+            "https://imgup.cz/andrewkdinh",
+            "https://andrewkdinh.itch.io/",
+            "https://www.kaggle.com/andrewkdinh",
+            "https://launchpad.net/~andrewkdinh",
+            "https://andrewkdinh.livejournal.com",
+            "https://www.memrise.com/user/andrewkdinh/",
+            "https://myspace.com/andrewkdinh",
+            "https://www.npmjs.com/~andrewkdinh",
+            "https://packagist.org/users/andrewkdinh/",
+            "https://www.pscp.tv/andrewkdinh",
+            "https://pcpartpicker.com/user/andrewkdinh/",
+            "https://app.photobucket.com/u/andrewkdinh",
+            "https://www.pinkbike.com/u/andrewkdinh/",
+            "https://www.pling.com/u/andrewkdinh/",
+            "https://www.opencode.net/andrewkdinh",
+            "https://www.opendesktop.org/u/andrewkdinh",
+            "https://www.polygon.com/users/andrewkdinh",
+            "https://rateyourmusic.com/~andrewkdinh",
+            "https://rubygems.org/profile/edit",
+            "https://scratch.mit.edu/users/andrewkdinh/",
+            "https://www.smashcast.tv/andrewkdinh",
+            "https://www.smule.com/andrewkdinh",
+            "https://www.sporcle.com/user/andrewkdinh/",
+            "https://www.speedrun.com/andrewkdinh/",
+            "https://tellonym.me/andrewkdinh",
+            "https://trakt.tv/users/andrewkdinh",
+            "https://www.tripadvisor.com/Profile/andrewkdinh",
+            "https://www.tradingview.com/u/andrewkdinh/",
+            "https://data.typeracer.com/pit/profile?user=andrewkdinh",
+            "https://www.virustotal.com/gui/user/andrewkdinh",
+            "https://www.wattpad.com/user/andrewkdinh",
+            "https://weheartit.com/Andrewkdinh",
+            "https://allmylinks.com/andrewkdinh",
+            "https://devrant.com/users/andrewkdinh",
+            "https://www.hackster.io/andrewkdinh",
+            "https://lab.pentestit.ru/profile/andrewkdinh",
+            "https://notabug.org/andrewkdinh",
+            "https://opensource.com/users/andrewkdinh",
+            "https://soylentnews.org/~andrewkdinh/",
+            "https://www.travellerspoint.com/users/andrewkdinh/",
+            "https://www.warriorforum.com/members/andrewkdinh.html",
+            "https://community.windy.com/user/andrewkdinh",
+            "https://ello.co/andrewkdinh",
+            "https://leanpub.com/u/andrewkdinh",
+            "https://andrewkdinh.imprint.to/",
+            "https://imprint.to/user/andrewkdinh",
+            "https://wheretofind.me/@andrewkdinh",
+            "https://codesandbox.io/u/andrewkdinh",
+            "https://jumpstart.me/profile/andrewkdinh",
+            "https://howdy.so/andrewkdinh",
+            "https://parler.com/profile/andrewkdinh",
+            "https://www.readylink.me/andrewkdinh",
+            "https://spacehey.com/andrewkdinh",
+            "https://www.joinentre.com/profile/andrewkdinh",
+            "https://capiche.fm/andrewkdinh",
+            "https://app.singlelink.co/u/andrewkdinh",
+            "https://indielog.com/user/andrewkdinh",
+            "https://www.myhryzn.com/profile/andrewkdinh",
+            "https://read.cv/andrewkdinh",
+            "https://znaplink.com/andrewkdinh",
+            "https://lyrn.link/andrewkdinh",
+            "https://www.causes.com/andrewkdinh",
+            "https://www.chess.com/member/andrewkdinh",
+            "https://binarysearch.com/@/andrewkdinh",
+            "https://ask.fm/andrewkdinh",
+            "https://leetcode.com/andrewkdinh/",
+            "https://trello.com/andrewkdinh",
+            "https://tryhackme.com/p/andrewkdinh",
+            "https://tldrlegal.com/users/andrewkdinh",
+            "https://quizlet.com/andrewkdinh",
+            "https://imgur.com/user/andrewkdinh",
+            "https://www.openhub.net/accounts/andrewkdinh",
+            "https://hackernoon.com/u/andrewkdinh",
+            "https://www.thiscodeworks.com/user/andrewkdinh",
+            "https://sellff.com/$/andrewkdinh",
+            "https://sleek.bio/andrewkdinh",
+            "https://volt.fm/andrewkdinh",
+            "https://andrewkdinh.myshopify.com",
+            "https://www.codecademy.com/profiles/andrewkdinh",
+            "https://www.tripit.com/people/andrewkdinh",
+            "https://hackmd.io/@andrewkdinh",
+            "https://jsfiddle.net/user/andrewkdinh/",
+            "https://fancy.com/andrewkdinh",
+            "https://coderwall.com/andrewkdinh",
+            "https://andrewkdinh.newgrounds.com/",
+            "https://andrewkdinh.weebly.com/",
+            "https://thoughts.com/members/andrewkdinh",
+            "https://www.colourlovers.com/lover/andrewkdinh",
+            "https://www.kickstarter.com/profile/andrewkdinh",
+            "https://www.kongregate.com/accounts/andrewkdinh",
+            "https://www.plurk.com/andrewkdinh",
+            "https://armorgames.com/user/andrewkdinh",
+            "https://slashdot.org/~andrewkdinh",
+            "https://www.diigo.com/profile/andrewkdinh",
+            "https://www.programmableweb.com/profile/andrewkdinh",
+            "https://www.blurb.com/user/andrewkdinh",
+            "https://www.edocr.com/user/andrewkdinh",
+            "https://www.slideserve.com/andrewkdinh",
+            "https://volt.fm/andrewkdinh",
+            "https://open.spotify.com/user/7d5c14o2mqv02c4wd18qt3yei",
+            "https://stacky.app/andrewkdinh",
+            "https://en.pronouns.page/@andrewkdinh",
+            "https://linktr.ee/andrewkdinh",
+            "https://99designs.com/profiles/andrewkdinh",
+            "https://genius.com/andrewkdinh",
+            "https://www.codementor.io/andrewkdinh",
+            "https://arc.dev/@andrewkdinh",
+            "https://auth.geeksforgeeks.org/user/andrewkdinh",
+            "https://www.producthunt.com/@andrewkdinh",
+            "https://www.slant.co/users/andrewkdinh",
+            "https://pizzaparteee.com/members/andrewkdinh",
+            "https://sayhey.to/andrewkdinh",
+            "https://webflow.com/andrewkdinh",
+            "https://www.strava.com/athletes/andrewkdinh",
+            "https://www.flickr.com/people/andrewkdinh",
+            "https://www.joinclubhouse.com/@andrewkdinh",
+            "https://mmm.page/andrewkdinh.main",
+            "https://andrewkdinh.straw.page/",
+            "https://www.garnet.app/andrewkdinh",
+            "https://mssg.me/andrewkdinh",
+            "https://biotree.vercel.app/andrewkdinh",
+            "https://midnight.pub/~andrewkdinh",
+            "https://andrewkdinh.midnight.pub",
+            "https://www.fanpassly.com/u/andrewkdinh",
+            "https://opengeofiction.net/user/andrewkdinh",
+            "https://closefriend.io/#/c/andrewkdinh",
+            "https://dope.link/andrewkdinh",
+            "https://fwrd.page/?andrewkdinh",
+            "https://finelin.com/andrewkdinh/socialprofiles",
+            "https://bodyspace.bodybuilding.com/andrewkdinh",
+            "https://www.polarsteps.com/andrewkdinh",
+            "https://www.mixcloud.com/andrewkdinh/",
+            "https://blip.fm/andrewkdinh",
+            "https://gfycat.com/@andrewkdinh",
+            "https://www.freelancer.com/u/andrewkdinh",
+            "https://github.community/u/andrewkdinh/",
+            "https://audiojungle.net/user/andrewkdinh",
+            "https://youpic.com/photographer/andrewkdinh/",
+            "https://www.last.fm/user/andrewkdinh",
+            "https://www.depop.com/andrewkdinh/",
+            "https://en.wikipedia.org/wiki/User:Andrewkdinh",
+            "https://myanimelist.net/profile/andrewkdinh",
+            "https://steamcommunity.com/id/andrewkdinh/",
+            "https://andrewkdinh.fandom.com",
+            "https://andrewkdinh.scrollstack.com/",
+            "https://ninfex.com/user?id=andrewkdinh",
+            "https://bookshlf.com/user/andrewkdinh",
+            "https://venme.at/@andrewkdinh",
+            "https://andrewkdinh.vsble.me/",
+            "https://laasy.tech/andrewkdinh/index",
+            "https://discussions.apple.com/profile/andrewkdinh",
+            "https://rive.app/andrewkdinh/",
+            "https://accounts.fedoraproject.org/user/andrewkdinh/",
+            "https://discuss.atom.io/u/andrewkdinh/",
+            "https://bitcoinforum.com/profile/andrewkdinh/",
+            "https://www.capfriendly.com/users/andrewkdinh",
+            "https://community.cloudflare.com/u/andrewkdinh",
+            "https://hubski.com/user/andrewkdinh",
+            "https://gitee.com/andrewkdinh",
+            "https://lichess.org/@/andrewkdinh",
+            "https://ourdjtalk.com/djs/andrewkdinh.8091/",
+            "https://www.shitpostbot.com/user/andrewkdinh",
+            "https://promodj.com/andrewkdinh",
+            "https://splits.io/users/andrewkdinh",
+            "https://ch.tetr.io/u/andrewkdinh",
+            "https://robertsspaceindustries.com/citizens/andrewkdinh",
+            "https://www.ultimate-guitar.com/u/andrewkdinh",
+            "https://www.authorstream.com/andrewkdinh/",
+            "https://forum.sublimetext.com/u/andrewkdinh",
+            "https://forums.whonix.org/u/andrewkdinh",
+            "https://kwork.com/user/andrewkdinh",
+            "https://egpu.io/forums/profile/andrewkdinh/",
+            "https://www.sellercommunity.com/t5/user/viewprofilepage/user-id/379225",
+            "https://micro.blog/andrewkdinh",
+            "https://asciinema.org/~andrewkdinh",
+            "https://snapgotap.com/andrewkdinh",
+            "https://prosepen.com/p/andrewkdinh",
+            "https://uid.me/andrewkdinh",
+            "https://www.cakeresume.com/me/andrewkdinh",
+            "https://archive.org/details/@andrewkdinh",
+            "https://castyr.com/profile/andrewkdinh",
+            "https://make.rs/@andrewkdinh",
+            "https://isbusy.app/s/andrewkdinh",
+            "https://andrewkdinh.galllery.co/",
+            "https://thankme.in/profile.php?u=andrewkdinh",
+            "https://polygram.netlify.app/u/andrewkdinh",
+            "https://tipme.fun/andrewkdinh",
+            "https://andrewkdinh.webcrate.co/",
+            "https://bio.link/andrewkdinh",
+            "https://andrewkdinh.bio.link/",
+            "https://ladder.to/users/andrewkdinh",
+            "https://fadd.io/andrewkdinh",
+            "https://andrewkdinh.lemonsqueezy.com/",
+            "https://withkoji.com/@andrewkdinh",
+            "https://www.thumbnailgame.com/user/andrewkdinh",
+            "https://andrewkdinh.blogody.com/",
+            "https://andrewkdinh.domainport.io/",
+            "https://creavor.com/andrewkdinh/main",
+            "https://ayo.so/andrewkdinh",
+            "https://swif.link/andrewkdinh",
+            "https://triller.co/@andrewkdinh",
+            "https://www.polywork.com/andrewkdinh",
+            "https://cal.berkeley.edu/andrewkdinh",
+            "https://www.shlinkedin.com/sh/andrewkdinh",
+            "https://minus.social/members/andrewkdinh/",
+            "https://andrewkdinh.withyouand.me/",
+            "https://urlt.bio/andrewkdinh",
+            "https://crypto-to.me/andrewkdinh",
+            "https://hey.cafe/p/andrewkdinh",
+            "https://andrewkdinh.linksup.me/",
+            "https://solo.to/andrewkdinh",
+            "https://linkyy.co/andrewkdinh/",
+            "https://little.link/andrewkdinh",
+            "https://bibly.me/andrewkdinh",
+            "https://solo.so/andrewkdinh",
+            "https://www.lifeofdiscipline.com/andrewkdinh",
+            "https://anilist.co/user/andrewkdinh/",
+            "https://kommunity.com/@andrewkdinh",
+            "https://papyrus.so/@andrewkdinh",
+            "https://goodz.id/andrewkdinh",
+            "https://www.lance-app.com/andrewkdinh",
+            "https://racket.com/andrewkdinh",
+            "https://www.inaturalist.org/people/andrewkdinh",
+            "https://www.gittr.ee/andrewkdinh",
+            "https://andrewkdinh.writeas.com/",
+            "https://clink.bio/andrewkdinh",
+            "https://favelent.com/profile/andrewkdinh",
+            "https://www.msukwini.com/@andrewkdinh/",
+            "https://linkin.bi/o/andrewkdinh",
+            "https://statuspage.spike.sh/andrewkdinh",
+            "https://andrewkdinh.static.app/",
+            "https://www.airliners.net/user/andrewkdinh/profile",
+            "https://ask.fedoraproject.org/u/andrewkdinh/",
+            "https://www.clozemaster.com/players/andrewkdinh",
+            "https://crowdin.com/profile/andrewkdinh",
+            "https://www.hexrpg.com/userinfo/andrewkdinh",
+            "https://gosocial.io/users/andrewkdinh",
+            "https://kingdom.so/andrewkdinh",
+            "https://ask.rip/en/u/andrewkdinh",
+            "https://kaashi.org/@andrewkdinh",
+            "https://tourin.fm/fans/andrewkdinh",
+            "https://marble.app/andrewkdinh",
+            "https://tinyletter.com/andrewkdinh",
+            "https://bookwyrm.social/user/andrewkdinh",
+            "https://www.duolingo.com/profile/andrewkdinh",
+            "https://coortera.com/profile/andrewkdinh/",
+            "https://linkstree.co/andrewkdinh",
+            "https://www.poeticpost.com/u/andrewkdinh",
+            "https://www.posiviber.com/andrewkdinh/",
+            "https://wiki.vg/User:Andrewkdinh",
+            "https://ninjakiwi.com/profile/andrewkdinh",
+            "https://www.myminifactory.com/users/andrewkdinh",
+            "https://www.itemfix.com/c/andrewkdinh",
+            "https://cash.app/$andrewkdinh",
+            "https://listenbrainz.org/user/andrewkdinh/",
+            "https://andrewkdinh.stck.me/",
+            "https://just1.app/andrewkdinh",
+            "https://hardcover.app/@andrewkdinh",
+            "https://prolific.bio/andrewkdinh",
+            "https://andrewkdinh.mataroa.blog/",
+            "https://music.sleevenote.com/@andrewkdinh",
+            "https://lanceid.com/andrewkdinh",
+            "https://dotcal.co/andrewkdinh",
+            "https://www.showwcase.com/andrewkdinh",
+            "https://app.travelfacets.com/profile/andrewkdinh/",
+            "https://untappd.com/user/andrewkdinh",
+            "https://linksome.me/andrewkdinh/",
+            "https://mana.live/andrewkdinh",
+            "https://www.thevouchapp.com/user/andrewkdinh",
+            "https://pnpl.io/andrewkdinh",
+            "https://www.spidergain.com/@andrewkdinh",
+            "https://oneitem.store/andrewkdinh",
+            "https://veklar.com/andrewkdinh",
+            "https://bummer.me/andrewkdinh",
+            "https://goodprofile.me/andrewkdinh",
+            "https://activelink.io/andrewkdinh",
+            "https://heyhey.to/andrewkdinh",
+            "https://andrewkdinh.postcard.page/",
+            "https://app.myqoob.com/andrewkdinh",
+            "https://nano.site/andrewkdinh",
+            "https://giftapp.com/andrewkdinh",
+            "https://fe.disroot.org/@andrewkdinh",
+            "https://libertylinks.io/andrewkdinh",
+            "https://cal.com/andrewkdinh",
+            "https://en.tipeee.com/user/andrewkdinh",
+            "https://www.lemon8-app.com/andrewkdinh",
+            "https://literal.club/andrewkdinh",
+            "https://currl.io/@andrewkdinh",
+            "https://www.credly.com/users/andrewkdinh",
+            "https://www.threads.net/@andrewkdinh",
+            "https://link.space/@andrewkdinh",
+            "https://www.m.tribel.com/public/andrewkdinh/wall",
+            "https://app.beliapp.com/lists/andrewkdinh",
+            "https://huntr.co/p/andrewkdinh",
+            "https://www.hellotalk.com/u/andrewkdinh",
+            "https://cara.app/andrewkdinh",
+            "https://ctx.bio/andrewkdinh",
+            "https://hinative.com/profiles/8199705",
+            "https://bento.me/andrewkdinh",
+            "https://andruwu.com"
+        ]
+    }
+    </script>
+</head>
+<body data-spy="scroll" data-target="#akd-navbar" data-offset="30">
+    <!-- https://icomoon.io/app -->
+    <svg class="svg-defs" aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+    <symbol id="icon-chevron-thin-down" viewbox="0 0 20 20">
+        <path d="M17.418 6.109c0.272-0.268 0.709-0.268 0.979 0s0.271 0.701 0 0.969l-7.908 7.83c-0.27 0.268-0.707 0.268-0.979 0l-7.908-7.83c-0.27-0.268-0.27-0.701 0-0.969s0.709-0.268 0.979 0l7.419 7.141 7.418-7.141z"></path>
+    </symbol>
+    <symbol id="icon-drivers-license" viewbox="0 0 32 28">
+        <path d="M14 18.937c0-2.063-0.5-4.438-2.562-4.438-0.625 0.625-1.484 1-2.438 1s-1.813-0.375-2.438-1c-2.063 0-2.562 2.375-2.562 4.438 0 1.141 0.75 2.063 1.672 2.063h6.656c0.922 0 1.672-0.922 1.672-2.063zM12 12c0-1.656-1.344-3-3-3s-3 1.344-3 3 1.344 3 3 3 3-1.344 3-3zM28 19.5v-1c0-0.281-0.219-0.5-0.5-0.5h-11c-0.281 0-0.5 0.219-0.5 0.5v1c0 0.281 0.219 0.5 0.5 0.5h11c0.281 0 0.5-0.219 0.5-0.5zM22 15.5v-1c0-0.281-0.219-0.5-0.5-0.5h-5c-0.281 0-0.5 0.219-0.5 0.5v1c0 0.281 0.219 0.5 0.5 0.5h5c0.281 0 0.5-0.219 0.5-0.5zM28 15.5v-1c0-0.281-0.219-0.5-0.5-0.5h-3c-0.281 0-0.5 0.219-0.5 0.5v1c0 0.281 0.219 0.5 0.5 0.5h3c0.281 0 0.5-0.219 0.5-0.5zM28 11.5v-1c0-0.281-0.219-0.5-0.5-0.5h-11c-0.281 0-0.5 0.219-0.5 0.5v1c0 0.281 0.219 0.5 0.5 0.5h11c0.281 0 0.5-0.219 0.5-0.5zM2 6h28v-1.5c0-0.281-0.219-0.5-0.5-0.5h-27c-0.281 0-0.5 0.219-0.5 0.5v1.5zM32 4.5v19c0 1.375-1.125 2.5-2.5 2.5h-27c-1.375 0-2.5-1.125-2.5-2.5v-19c0-1.375 1.125-2.5 2.5-2.5h27c1.375 0 2.5 1.125 2.5 2.5z"></path>
+    </symbol>
+    <symbol id="icon-gamepad" viewbox="0 0 30 28">
+        <path d="M13 17v-2c0-0.281-0.219-0.5-0.5-0.5h-3v-3c0-0.281-0.219-0.5-0.5-0.5h-2c-0.281 0-0.5 0.219-0.5 0.5v3h-3c-0.281 0-0.5 0.219-0.5 0.5v2c0 0.281 0.219 0.5 0.5 0.5h3v3c0 0.281 0.219 0.5 0.5 0.5h2c0.281 0 0.5-0.219 0.5-0.5v-3h3c0.281 0 0.5-0.219 0.5-0.5zM22 18c0-1.109-0.891-2-2-2s-2 0.891-2 2 0.891 2 2 2 2-0.891 2-2zM26 14c0-1.109-0.891-2-2-2s-2 0.891-2 2 0.891 2 2 2 2-0.891 2-2zM30 16c0 4.422-3.578 8-8 8-2.031 0-3.875-0.766-5.281-2h-3.437c-1.406 1.234-3.25 2-5.281 2-4.422 0-8-3.578-8-8s3.578-8 8-8h14c4.422 0 8 3.578 8 8z"></path>
+    </symbol>
+    <symbol id="icon-envelope" viewbox="0 0 28 28">
+        <path d="M28 11.094v12.406c0 1.375-1.125 2.5-2.5 2.5h-23c-1.375 0-2.5-1.125-2.5-2.5v-12.406c0.469 0.516 1 0.969 1.578 1.359 2.594 1.766 5.219 3.531 7.766 5.391 1.313 0.969 2.938 2.156 4.641 2.156h0.031c1.703 0 3.328-1.188 4.641-2.156 2.547-1.844 5.172-3.625 7.781-5.391 0.562-0.391 1.094-0.844 1.563-1.359zM28 6.5c0 1.75-1.297 3.328-2.672 4.281-2.438 1.687-4.891 3.375-7.313 5.078-1.016 0.703-2.734 2.141-4 2.141h-0.031c-1.266 0-2.984-1.437-4-2.141-2.422-1.703-4.875-3.391-7.297-5.078-1.109-0.75-2.688-2.516-2.688-3.938 0-1.531 0.828-2.844 2.5-2.844h23c1.359 0 2.5 1.125 2.5 2.5z"></path>
+    </symbol>
+    <!--
+    <symbol id="icon-github" viewBox="0 0 24 28">
+        <path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-0.609 0.109-0.828-0.266-0.828-0.578 0-0.391 0.016-1.687 0.016-3.297 0-1.125-0.375-1.844-0.812-2.219 2.672-0.297 5.484-1.313 5.484-5.922 0-1.313-0.469-2.375-1.234-3.219 0.125-0.313 0.531-1.531-0.125-3.187-1-0.313-3.297 1.234-3.297 1.234-0.953-0.266-1.984-0.406-3-0.406s-2.047 0.141-3 0.406c0 0-2.297-1.547-3.297-1.234-0.656 1.656-0.25 2.875-0.125 3.187-0.766 0.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-0.344 0.313-0.656 0.844-0.766 1.609-0.688 0.313-2.438 0.844-3.484-1-0.656-1.141-1.844-1.234-1.844-1.234-1.172-0.016-0.078 0.734-0.078 0.734 0.781 0.359 1.328 1.75 1.328 1.75 0.703 2.141 4.047 1.422 4.047 1.422 0 1 0.016 1.937 0.016 2.234 0 0.313-0.219 0.688-0.828 0.578-4.766-1.594-8.203-6.094-8.203-11.391 0-6.625 5.375-12 12-12zM4.547 19.234c0.031-0.063-0.016-0.141-0.109-0.187-0.094-0.031-0.172-0.016-0.203 0.031-0.031 0.063 0.016 0.141 0.109 0.187 0.078 0.047 0.172 0.031 0.203-0.031zM5.031 19.766c0.063-0.047 0.047-0.156-0.031-0.25-0.078-0.078-0.187-0.109-0.25-0.047-0.063 0.047-0.047 0.156 0.031 0.25 0.078 0.078 0.187 0.109 0.25 0.047zM5.5 20.469c0.078-0.063 0.078-0.187 0-0.297-0.063-0.109-0.187-0.156-0.266-0.094-0.078 0.047-0.078 0.172 0 0.281s0.203 0.156 0.266 0.109zM6.156 21.125c0.063-0.063 0.031-0.203-0.063-0.297-0.109-0.109-0.25-0.125-0.313-0.047-0.078 0.063-0.047 0.203 0.063 0.297 0.109 0.109 0.25 0.125 0.313 0.047zM7.047 21.516c0.031-0.094-0.063-0.203-0.203-0.25-0.125-0.031-0.266 0.016-0.297 0.109s0.063 0.203 0.203 0.234c0.125 0.047 0.266 0 0.297-0.094zM8.031 21.594c0-0.109-0.125-0.187-0.266-0.172-0.141 0-0.25 0.078-0.25 0.172 0 0.109 0.109 0.187 0.266 0.172 0.141 0 0.25-0.078 0.25-0.172zM8.937 21.438c-0.016-0.094-0.141-0.156-0.281-0.141-0.141 0.031-0.234 0.125-0.219 0.234 0.016 0.094 0.141 0.156 0.281 0.125s0.234-0.125 0.219-0.219z"></path>
+    </symbol>
+    -->
+    <!--
+    <symbol id="icon-music" viewBox="0 0 32 32">
+        <path d="M30 0h2v23c0 2.761-3.134 5-7 5s-7-2.239-7-5c0-2.761 3.134-5 7-5 1.959 0 3.729 0.575 5 1.501v-11.501l-16 3.556v15.444c0 2.761-3.134 5-7 5s-7-2.239-7-5c0-2.761 3.134-5 7-5 1.959 0 3.729 0.575 5 1.501v-19.501l18-4z"></path>
+    </symbol>
+    <symbol id="icon-mastodon" viewBox="0 0 30 30">
+        <path d="M28.991 9.849c0-6.508-4.264-8.415-4.264-8.415-2.15-0.988-5.843-1.403-9.676-1.434h-0.095c-3.835 0.031-7.525 0.446-9.675 1.434 0 0-4.264 1.907-4.264 8.415 0 1.49-0.029 3.272 0.019 5.161 0.155 6.365 1.168 12.636 7.051 14.194 2.713 0.718 5.042 0.869 6.919 0.765 3.403-0.188 5.312-1.215 5.312-1.215l-0.113-2.469c0 0-2.431 0.766-5.161 0.674-2.706-0.092-5.561-0.291-5.999-3.614-0.038-0.272-0.060-0.587-0.060-0.907 0-0.009 0-0.017 0-0.026v0.001c0 0 2.656 0.65 6.021 0.804 2.057 0.094 3.988-0.121 5.948-0.354 3.759-0.449 7.031-2.765 7.442-4.881 0.646-3.331 0.594-8.134 0.594-8.134zM23.961 18.235h-3.121v-7.649c0-1.613-0.679-2.43-2.035-2.43-1.5 0-2.252 0.97-2.252 2.89v4.186h-3.104v-4.187c0-1.92-0.752-2.89-2.252-2.89-1.356 0-2.035 0.819-2.035 2.43v7.649h-3.121v-7.879c0-1.611 0.41-2.891 1.234-3.838 0.85-0.947 1.961-1.433 3.343-1.433 1.598 0 2.807 0.614 3.607 1.843l0.776 1.304 0.778-1.304c0.8-1.229 2.010-1.843 3.607-1.843 1.38 0 2.492 0.485 3.343 1.433 0.823 0.946 1.232 2.226 1.232 3.838z"></path>
+    </symbol>
+    -->
+    <symbol id="icon-instagram" viewbox="0 0 32 32">
+        <path d="M16 2.881c4.275 0 4.781 0.019 6.462 0.094 1.563 0.069 2.406 0.331 2.969 0.55 0.744 0.288 1.281 0.638 1.837 1.194 0.563 0.563 0.906 1.094 1.2 1.838 0.219 0.563 0.481 1.412 0.55 2.969 0.075 1.688 0.094 2.194 0.094 6.463s-0.019 4.781-0.094 6.463c-0.069 1.563-0.331 2.406-0.55 2.969-0.288 0.744-0.637 1.281-1.194 1.837-0.563 0.563-1.094 0.906-1.837 1.2-0.563 0.219-1.413 0.481-2.969 0.55-1.688 0.075-2.194 0.094-6.463 0.094s-4.781-0.019-6.463-0.094c-1.563-0.069-2.406-0.331-2.969-0.55-0.744-0.288-1.281-0.637-1.838-1.194-0.563-0.563-0.906-1.094-1.2-1.837-0.219-0.563-0.481-1.413-0.55-2.969-0.075-1.688-0.094-2.194-0.094-6.463s0.019-4.781 0.094-6.463c0.069-1.563 0.331-2.406 0.55-2.969 0.288-0.744 0.638-1.281 1.194-1.838 0.563-0.563 1.094-0.906 1.838-1.2 0.563-0.219 1.412-0.481 2.969-0.55 1.681-0.075 2.188-0.094 6.463-0.094zM16 0c-4.344 0-4.887 0.019-6.594 0.094-1.7 0.075-2.869 0.35-3.881 0.744-1.056 0.412-1.95 0.956-2.837 1.85-0.894 0.888-1.438 1.781-1.85 2.831-0.394 1.019-0.669 2.181-0.744 3.881-0.075 1.713-0.094 2.256-0.094 6.6s0.019 4.887 0.094 6.594c0.075 1.7 0.35 2.869 0.744 3.881 0.413 1.056 0.956 1.95 1.85 2.837 0.887 0.887 1.781 1.438 2.831 1.844 1.019 0.394 2.181 0.669 3.881 0.744 1.706 0.075 2.25 0.094 6.594 0.094s4.888-0.019 6.594-0.094c1.7-0.075 2.869-0.35 3.881-0.744 1.050-0.406 1.944-0.956 2.831-1.844s1.438-1.781 1.844-2.831c0.394-1.019 0.669-2.181 0.744-3.881 0.075-1.706 0.094-2.25 0.094-6.594s-0.019-4.887-0.094-6.594c-0.075-1.7-0.35-2.869-0.744-3.881-0.394-1.063-0.938-1.956-1.831-2.844-0.887-0.887-1.781-1.438-2.831-1.844-1.019-0.394-2.181-0.669-3.881-0.744-1.712-0.081-2.256-0.1-6.6-0.1v0z"></path>
+        <path d="M16 7.781c-4.537 0-8.219 3.681-8.219 8.219s3.681 8.219 8.219 8.219 8.219-3.681 8.219-8.219c0-4.537-3.681-8.219-8.219-8.219zM16 21.331c-2.944 0-5.331-2.387-5.331-5.331s2.387-5.331 5.331-5.331c2.944 0 5.331 2.387 5.331 5.331s-2.387 5.331-5.331 5.331z"></path>
+        <path d="M26.462 7.456c0 1.060-0.859 1.919-1.919 1.919s-1.919-0.859-1.919-1.919c0-1.060 0.859-1.919 1.919-1.919s1.919 0.859 1.919 1.919z"></path>
+    </symbol>
+    <symbol id="icon-linkedin-square" viewbox="0 0 24 28">
+        <path d="M3.703 22.094h3.609v-10.844h-3.609v10.844zM7.547 7.906c-0.016-1.062-0.781-1.875-2.016-1.875s-2.047 0.812-2.047 1.875c0 1.031 0.781 1.875 2 1.875h0.016c1.266 0 2.047-0.844 2.047-1.875zM16.688 22.094h3.609v-6.219c0-3.328-1.781-4.875-4.156-4.875-1.937 0-2.797 1.078-3.266 1.828h0.031v-1.578h-3.609s0.047 1.016 0 10.844v0h3.609v-6.062c0-0.313 0.016-0.641 0.109-0.875 0.266-0.641 0.859-1.313 1.859-1.313 1.297 0 1.813 0.984 1.813 2.453v5.797zM24 6.5v15c0 2.484-2.016 4.5-4.5 4.5h-15c-2.484 0-4.5-2.016-4.5-4.5v-15c0-2.484 2.016-4.5 4.5-4.5h15c2.484 0 4.5 2.016 4.5 4.5z"></path>
+    </symbol>
+    <symbol id="icon-external-link" viewbox="0 0 24 24">
+        <path d="M17 13v6c0 0.276-0.111 0.525-0.293 0.707s-0.431 0.293-0.707 0.293h-11c-0.276 0-0.525-0.111-0.707-0.293s-0.293-0.431-0.293-0.707v-11c0-0.276 0.111-0.525 0.293-0.707s0.431-0.293 0.707-0.293h6c0.552 0 1-0.448 1-1s-0.448-1-1-1h-6c-0.828 0-1.58 0.337-2.121 0.879s-0.879 1.293-0.879 2.121v11c0 0.828 0.337 1.58 0.879 2.121s1.293 0.879 2.121 0.879h11c0.828 0 1.58-0.337 2.121-0.879s0.879-1.293 0.879-2.121v-6c0-0.552-0.448-1-1-1s-1 0.448-1 1zM10.707 14.707l9.293-9.293v3.586c0 0.552 0.448 1 1 1s1-0.448 1-1v-6c0-0.136-0.027-0.265-0.076-0.383s-0.121-0.228-0.216-0.323c-0.001-0.001-0.001-0.001-0.002-0.002-0.092-0.092-0.202-0.166-0.323-0.216-0.118-0.049-0.247-0.076-0.383-0.076h-6c-0.552 0-1 0.448-1 1s0.448 1 1 1h3.586l-9.293 9.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0z"></path>
+    </symbol>
+    <symbol id="icon-paw" viewbox="0 0 26 28">
+        <path d="M12.187 7.375c0 1.75-0.906 3.828-2.922 3.828-2.531 0-4.062-3.187-4.062-5.375 0-1.75 0.906-3.828 2.922-3.828 2.547 0 4.062 3.187 4.062 5.375zM6.844 14.922c0 1.516-0.797 3.094-2.516 3.094-2.5 0-4.328-3.063-4.328-5.328 0-1.516 0.812-3.109 2.516-3.109 2.5 0 4.328 3.078 4.328 5.344zM13 14.5c3.828 0 9 5.516 9 9.203 0 1.984-1.625 2.297-3.219 2.297-2.094 0-3.781-1.406-5.781-1.406-2.094 0-3.875 1.391-6.141 1.391-1.516 0-2.859-0.516-2.859-2.281 0-3.703 5.172-9.203 9-9.203zM16.734 11.203c-2.016 0-2.922-2.078-2.922-3.828 0-2.188 1.516-5.375 4.062-5.375 2.016 0 2.922 2.078 2.922 3.828 0 2.188-1.531 5.375-4.062 5.375zM23.484 9.578c1.703 0 2.516 1.594 2.516 3.109 0 2.266-1.828 5.328-4.328 5.328-1.719 0-2.516-1.578-2.516-3.094 0-2.266 1.828-5.344 4.328-5.344z"></path>
+    </symbol>
+    <symbol id="icon-signal" viewbox="0 0 32 32">
+        <path fill="#2592e9" style="fill: var(--color1, #fff)" d="M16.016 3.464c-6.96 0-12.603 5.2-12.603 11.612 0 4.021 1.625 7.068 4.207 9.032h-0.007l0.312 4.056v0.005c0 0.023 0 0.041 0.005 0.061v0.008c0.032 0.192 0.2 0.34 0.401 0.34 0.071 0 0.133-0.020 0.192-0.047l0.015-0.011 3.861-2.232c1.139 0.261 2.356 0.399 3.613 0.399 6.96 0 12.603-5.199 12.603-11.613 0-6.413-5.644-11.612-12.605-11.612zM13.853 0.96c0.7-0.087 1.415-0.139 2.14-0.139 0.507 0 1 0.027 1.492 0.069l0.076-0.819c-0.52-0.047-1.039-0.072-1.565-0.072-0.76 0-1.513 0.048-2.255 0.145l0.111 0.816zM18.916 1.085c1.22 0.22 2.38 0.581 3.48 1.060l0.336-0.756c-0.176-0.075-0.351-0.149-0.529-0.22-1.016-0.4-2.068-0.699-3.14-0.895zM31.141 15.16c-0.020 1.22-0.207 2.408-0.54 3.54l0.787 0.233c0.356-1.204 0.555-2.472 0.575-3.775zM8.993 2.419c1.081-0.519 2.237-0.931 3.448-1.203l-0.18-0.805c-0.841 0.188-1.668 0.439-2.471 0.759-0.396 0.156-0.781 0.327-1.156 0.508zM27.193 4.284c-0.941-0.865-1.98-1.609-3.105-2.231l-0.415 0.721c1.081 0.593 2.081 1.308 2.965 2.128l0.555-0.616zM20.201 29.401c1.26-0.32 2.46-0.788 3.581-1.373l-0.42-0.711c-1.048 0.551-2.175 0.984-3.361 1.289zM4.903 5.34c0.84-0.851 1.796-1.6 2.84-2.233l-0.436-0.705c-0.931 0.563-1.8 1.219-2.593 1.964-0.136 0.125-0.267 0.255-0.4 0.385l0.585 0.588zM30.876 20.38l-0.757-0.315c-0.465 1.111-1.071 2.152-1.805 3.109l0.66 0.492c0.769-1.011 1.415-2.115 1.899-3.287zM27.635 5.911c0.808 0.9 1.496 1.9 2.045 2.971l0.74-0.367c-0.58-1.136-1.305-2.193-2.169-3.155l-0.62 0.551zM31.040 9.915l-0.757 0.325c0.417 1.104 0.695 2.271 0.805 3.48l0.82-0.081c-0.117-1.275-0.407-2.523-0.868-3.724zM8.515 30.465l-1.292 0.567-0.443-1.367-0.78 0.253 0.584 1.796c0.039 0.111 0.12 0.201 0.223 0.251 0.055 0.023 0.111 0.035 0.168 0.035s0.112-0.012 0.164-0.035l1.711-0.751zM13.612 28.875c-0.104-0.021-0.209-0.036-0.316-0.055l-0.62-0.105c-0.081-0.012-0.16 0-0.229 0.031l-2.601 1.137 0.361 0.739 2.46-1.071c0.167 0.028 0.333 0.055 0.495 0.079 0.091 0.023 0.185 0.035 0.279 0.051zM18.583 28.901c-0.844 0.139-1.708 0.208-2.589 0.208-0.364 0-0.7-0.020-1.029-0.051l-0.025 0.82c0.335 0.032 0.681 0.053 1.055 0.053 0.931 0 1.844-0.077 2.731-0.221l-0.139-0.808zM2.023 9.488c0.493-1.1 1.136-2.131 1.9-3.069l-0.627-0.543c-0.813 0.993-1.488 2.076-2.011 3.236l-0.013 0.028zM27.376 24.28c-0.816 0.868-1.747 1.639-2.76 2.304l0.452 0.687c1.075-0.699 2.055-1.52 2.92-2.439zM1.293 19.401c-0.251-1.061-0.391-2.235-0.431-3.561h-0.821c0.040 1.428 0.193 2.673 0.46 3.791zM0.717 10.567c-0.396 1.213-0.624 2.471-0.68 3.751l0.82 0.040c0.056-1.231 0.279-2.421 0.649-3.549zM6.316 28.247l-0.787-2.42c-0.027-0.080-0.075-0.145-0.14-0.196-0.309-0.243-0.599-0.488-0.88-0.744l-0.563 0.595c0.259 0.245 0.544 0.483 0.839 0.721l0.748 2.289zM3.509 23.857c-0.788-0.921-1.383-1.932-1.807-3.087l-0.764 0.305c0.055 0.143 0.111 0.288 0.168 0.429 0.44 1.061 1.028 2.012 1.789 2.9z"></path>
+        </symbol>
+    </defs>
+    </svg>
+    <a class="skip-link" target="_self" href="#main">Skip to main content</a>
+    <nav>
+        <div class="navbar navbar-expand-lg fixed-top navbar-dark" id="akd-navbar">
+            <a target="_self" title="Home" class="navbar-brand" href="/">
+                <img src="img/logo.png" alt="Logo">
+            </a>
+            <div class="navbar-brand-title">
+                ANDREW DINH
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav nav-pills">
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#work">Work</a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#education">Education</a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#competitions">Competitions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_self" class="nav-link" href="#interests">Interests</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a target="_self" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Links
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <ul>
+                                <li><a rel="noopener" class="dropdown-item nav-link" href="/">Résumé   <svg class="icon icon-external-link"><use ></use></svg></a></li>
+                                <li><a rel="noopener nofollow me" class="dropdown-item nav-link" href="https://www.linkedin.com/in/andrewkdinh-com">LinkedIn   <svg class="icon icon-external-link"><use ></use></svg></a></li>
+                                <li><a rel="noopener me" class="dropdown-item nav-link" href="https://github.com/andrewkdinh">GitHub     <svg class="icon icon-external-link"><use ></use></svg></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <a id="oneko-toggle" target="_self" href="#toggle-cat" title="Toggle cat" aria-hidden="true"><svg class="icon icon-paw"><use ></use></svg></a>
+        </div>
+    </nav>
+    <div id="entrance-background" aria-hidden="true">
+        <pre><code class="language-rust hljs"></code></pre>
+    </div>
+    <header id="entrance">
+        <div id="entrance-image">
+            <img src="img/profile.webp" alt="Profile">
+        </div>
+        <h1 id="entrance-title">ANDREW K DINH</h1>
+        <hr>
+        <p id="entrance-subtitle">SOFTWARE ENGINEER</p>
+        <div id="socials">
+            <div class="socials-group">
+                <div class="akd-tooltip">
+                    <a href="/" target="_blank" aria-label="Résumé"><svg class="icon icon-drivers-license"><use ></use></svg></a>
+                    <span class="akd-tooltip-text">Résumé</span>
+                </div>
+                <div class="akd-tooltip">
+                    <a rel="noopener nofollow me" href="https://www.linkedin.com/in/andrewkdinh-com" aria-label="LinkedIn"><svg class="icon icon-linkedin-square"><use ></use></svg></a>
+                    <span class="akd-tooltip-text">LinkedIn</span>
+                </div>
+                <div class="akd-tooltip">
+                    <a rel="noopener nofollow me" href="https://www.instagram.com/andrewkdinh" target="_blank" aria-label="Instagram"><svg class="icon icon-instagram"><use ></use></svg></a>
+                    <span class="akd-tooltip-text">Instagram</span>
+                </div>
+            </div>
+            <div class="socials-group">
+                <div class="akd-tooltip">
+                    <a rel="noopener" href="#me-at-andrewkdinh-dot-com" target="_self" class="email-replace" aria-label="Email"><svg class="icon icon-envelope"><use ></use></svg></a>
+                    <span class="akd-tooltip-text">Email</span>
+                </div>
+                <div class="akd-tooltip">
+                    <a rel="noopener me" href="https://signal.me/#eu/ces0XsiUbR5GOdZT6DbuJqLz6crXNUQRXOmKOMmFXDOx-uc_5CdOpbLEtB-sieVE" aria-label="Signal"><svg class="icon icon-signal"><use ></use></svg></a>
+                    <span id="signal-tooltip" class="akd-tooltip-text">Signal</span>
+                </div>
+                <div class="akd-tooltip">
+                    <a href="#dino" target="_self" id="dino" aria-label="Dinosaur game"><svg class="icon icon-gamepad"><use ></use></svg></a>
+                    <span id="dino-tooltip" class="akd-tooltip-text">Dino</span>
+                </div>
+            </div>
+            <!--
+                <a rel="noopener nofollow me" href="https://github.com/andrewkdinh" aria-label="GitHub"><svg class="icon icon-github"><use xlink:href="#icon-github"></use></svg></a>
+                <a rel="noopener nofollow me" href="https://www.facebook.com/andrewkdinh"  data-toggle="tooltip" data-placement="top" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-square" aria-hidden="true"></i></a>
+                <a rel="noopener me" href="https://liberapay.com/andrewkdinh" data-toggle="tooltip" data-placement="top" title="Liberapay" aria-label="Liberapay"><i class="fas fa-donate" aria-hidden="true"></i></a>
+                <a rel="noopener nofollow me" href="https://twitter.com/andrewkdinh"><i class="fab fa-twitter"></i></a>
+                <a rel="noopener me" href="https://gitlab.com/andrewkdinh"><i class="fab fa-gitlab"></i></a>
+                <a rel="noopener nofollow me" href="https://andrewkdinh.com/music" target="_blank" aria-label="Music profile"><svg class="icon icon-music"><use xlink:href="#icon-music"></use></svg></a>
+                <a rel="noopener me" href="https://fosstodon.org/@andrewkdinh" aria-label="Mastodon"><svg class="icon icon-mastodon"><use xlink:href="#icon-mastodon"></use></svg></a>
+            -->
+        </div>
+        <div class="print-text print-only" aria-hidden="true">
+            <img loading="lazy" src="img/qr-print.png" alt="QR code for https://andrewkdinh.com">
+            <p>andrewkdinh.com</p>
+            <p>github.com/andrewkdinh</p>
+            <p>linkedin.com/in/andrewkdinh-com</p>
+        </div>
+        <div id="entrance-scroll" aria-hidden="true">
+            <a target="_self" href="#work">
+                <svg class="icon icon-chevron-thin-down"><use ></use></svg>
+            </a>
+        </div>
+    </header>
+    <main id="main">
+    <div id="main-hide">
+    <section class="topic-outer" id="work">
+        <h2 class="topic-header">Work Experience</h2>
+        <hr class="topic-header-line">
+        <div class="topic">
+            <article class="topic-box" id="apple-2">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/apple.png" alt="Apple logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Apple</h3>
+                        <p class="topic-box-subtitle">Software Engineer - Proactive Intelligence</p>
+                        <p class="topic-box-subtitle-small">FEB 2022 - OCT 2023</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Worked on a project to generate a private knowledge graph from on-device data to provide personalized suggestions to users</li>
+                        <li>Designed a highly-performant system that could save its progress and continue at a later time in order to keep battery usage to a minimum</li>
+                        <li>Reduced CPU and memory usage by 15% by analyzing stack traces and memory graphs</li>
+                        <li>Added diagnostics and client-side metrics to triage issues affecting power users</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://www.apple.com/">Homepage</a>
+                </div>
+            </article>
+            <article class="topic-box" id="apple-1">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/apple.png" alt="Apple logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Apple</h3>
+                        <p class="topic-box-subtitle">Software Engineer Intern - Ad Platforms</p>
+                        <p class="topic-box-subtitle-small">MAY 2021 - AUG 2021</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Implemented features in backend infrastructure to assist the sales team with keeping track of employee compensation and client onboarding status</li>
+                        <li>Collaborated with partner teams to coordinate data scheme changes so their data analytics pipelines could correctly consume and interpret upstream updates</li>
+                        <li>Worked closely with QA to validate backwards compatibility and ensure a smooth upgrade</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://searchads.apple.com/">Search Ads</a>
+                </div>
+            </article>
+        </div>
+        <div class="topic">
+            <article class="topic-box" id="sumup">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/sumup.jpg" alt="SumUp Analytics logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">SumUp Analytics</h3>
+                        <p class="topic-box-subtitle">Software Engineer</p>
+                        <p class="topic-box-subtitle-small">DEC 2019 - OCT 2020</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Performed text analysis on search engine results to categorize and extract relevant keywords</li>
+                        <li>Designed a browser extension and corresponding REST API to display results in webpages</li>
+                        <li>Created Jupyter notebooks to visualize and compare performance of various NLP models</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://github.com/SumUpAnalytics/nucleus-sdk">Nucleus SDK</a>
+                </div>
+            </article>
+            <article class="topic-box" id="ro">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/ro.png" alt="Rush Order logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Rush Order</h3>
+                        <p class="topic-box-subtitle">Full Stack Engineer</p>
+                        <p class="topic-box-subtitle-small">JUL 2019 - JAN 2020</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Improved page load times by 25% by optimizing inefficient JavaScript and SQL queries</li>
+                        <li>Redesigned the internal website to be mobile-responsive, including a mobile navigation menu</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://rushorder.com/">Homepage</a>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="topic-outer" id="education">
+        <h2 class="topic-header">Education</h2>
+        <hr class="topic-header-line">
+        <div class="topic">
+            <article class="topic-box" id="berkeley">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/berkeley.png" alt="Berkeley logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">University of California, Berkeley</h3>
+                        <p class="topic-box-subtitle">B.A in Computer Science</p>
+                        <p class="topic-box-subtitle-small">AUG 2019 - DEC 2021</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    Data Structures, Efficient Algorithms, Operating Systems, Computer Security, Database Systems, Information Devices and Systems, Programming Languages and Compilers, Artificial Intelligence
+                </div>
+            </article>
+            <article class="topic-box" id="gavilan">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/gavilan.png" alt="Gavilan logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Gavilan College</h3>
+                        <p class="topic-box-subtitle">A.S in Computer Programming |</p>
+                        <p class="topic-box-subtitle">A.A in Natural Science</p>
+                        <p class="topic-box-subtitle-small">AUG 2015 - AUG 2019</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    C++, Python, UNIX/Linux, Java, Assembly Language, Discrete Structures, Webpage Authoring, Human Anatomy & Physiology
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="topic-outer" id="projects">
+        <h2 class="topic-header">Projects</h2>
+        <hr class="topic-header-line">
+        <div class="topic">
+            <article class="topic-box" id="system-administration">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/system-administration.png" alt="System administration icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">System Administration</h3>
+                        <p class="topic-box-subtitle">Self-hosted network services and web applications</p>
+                        <p class="topic-box-subtitle-small">Docker, Linux, Nginx, Apache</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Self-hosts web applications and network services using multiple Linux servers</li>
+                        <li>Deployed <a rel="noopener" href="https://nextcloud.com/">Nextcloud</a> to sync files, calendar, and reminders between mobile and desktop devices</li>
+                        <li>Utilized Docker to easily containerize and upgrade applications while using Nginx as a reverse proxy to serve each on its own subdomain</li>
+                        <li>Uses Nginx to reverse proxy services and serve this website</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="dashboard-sub/index/">Dashboard</a>
+                    <!-- <a rel="noopener" class="btn btn-outline-info" href="https://status.andrewkdinh.com">Status Page</a> -->
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://stats.uptimerobot.com/QOWoQskpg2">Status Page</a>
+                    <a rel="noopener" class="btn btn-outline-info" href="plausible-sub/index/">Analytics</a>
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="system-administration-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-1.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-2.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-10.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-8.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-5.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-6.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-7.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-4.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-3.png" alt="System Administration">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/system-administration-9.png" alt="System Administration">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#system-administration-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#system-administration-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <article class="topic-box" id="via">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/via.png" alt="Via icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Via</h3>
+                        <p class="topic-box-subtitle">An efficient text editor written in Rust</p>
+                        <p class="topic-box-subtitle-small">Rust, CLI, piece table</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Inspired by Vim, supporting its keybindings and basic commands</li>
+                        <li>Ability to use a mouse to move the cursor and select text</li>
+                        <li>Implemented a <a rel="noopener" href="https://en.wikipedia.org/wiki/Piece_table">piece table</a> data structure for efficiently inserting text</li>
+                        <li>Designed from the start to handle text files of arbitrarily large sizes by only loading what fits in the viewport</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="https://github.com/andrewkdinh/via">GitHub</a>
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="via-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img loading="lazy" class="d-block w-100" src="img/via-2.png" alt="Via">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/via-1.png" alt="Via">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/via-3.png" alt="Via">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#via-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#via-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="topic">
+            <article class="topic-box" id="death-code">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/death-code.png" alt="Death Code icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Death Code</h3>
+                        <p class="topic-box-subtitle">Share your secrets after death</p>
+                        <p class="topic-box-subtitle-small">Python, Flask, Docker</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Utilizes <a rel="noopener" href="https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing">Shamir's Secret Sharing</a> scheme to safely share secrets with others</li>
+                        <li>After splitting a secret among a group of people, the secret can only be reconstructed once a sufficient number of people combine their parts together, presumably only after you are gone from this earth</li>
+                        <li>Has a CAPTCHA for preventing brute-force attempts</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="rip-demo-sub/index/">Demo</a>
+                    <a rel="noopener" class="btn btn-outline-info" href="https://github.com/andrewkdinh/death-code">GitHub</a>
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="death-code-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img loading="lazy" class="d-block w-100" src="img/death-code-2.png" alt="Death Code">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/death-code-1.png" alt="Death Code">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/death-code-3.png" alt="Death Code">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#death-code-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#death-code-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <article class="topic-box" id="fund-indicators">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/fund-indicators.png" alt="Fund Indicators icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Fund Indicators</h3>
+                        <p class="topic-box-subtitle">Python application to find indicators of mutual fund performance</p>
+                        <p class="topic-box-subtitle-small">Python, Beautiful Soup, NumPy, qualitative analysis</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Allows investors to easily find relationships between various attributes of mutual funds and previous performance</li>
+                        <li>Designed to be extremely reliable and error-tolerant by using multiple data sources and caching requests</li>
+                        <li>Based off the research detailed in <i><a rel="noopener" href="nextcloud-sub/s/ypGnDwKCAcBeG93/">Performance Indicators of Mutual Funds</a></i>, this program uses NumPy to analyze results and calculate key values to make predictions</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="https://github.com/andrewkdinh/fund-indicators">GitHub</a>
+                    <!--
+                    <a rel="noopener" class="btn btn-outline-info" href="https://fund-indicators.andrewkdinh.repl.run">Demo</a>
+                    <a rel="noopener" class="btn btn-outline-info" href="https://repl.it/@andrewkdinh/fund-indicators">Demo</a>
+                    -->
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="fund-indicators-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <a rel="noopener" href="https://asciinema.org/a/jLmZapnMFGCRiiSUITY21erLW?autoplay=1"><img loading="lazy" class="d-block w-100" src="img/fund-indicators-6.png" alt="Fund Indicators"></a>
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/fund-indicators-2.png" alt="Fund Indicators">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/fund-indicators-3.png" alt="Fund Indicators">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/fund-indicators-1.png" alt="Fund Indicators">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#fund-indicators-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#fund-indicators-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+<!--
+        <div class="topic">
+            <article class="topic-box" id="aja">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/aja.jpg" alt="AJA Messenger icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">AJA Messenger</h3>
+                        <p class="topic-box-subtitle">Messaging app for Android to filter spam using ML</p>
+                        <p class="topic-box-subtitle-small">Java, XML, Firebase, machine learning</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Worked with a team of three to create fork of <a rel="noopener nofollow" href="https://github.com/mesibo/messenger-app-android">Mesibo Messenger</a> for <a rel="noopener" href="https://calhacks.io">Cal Hacks 6.0</a></li>
+                        <li>Implemented a Naive Bayes linear classifier to tokenize and recognize patterns of spam messages</li>
+                        <li>Made use of Facebook Account Kit for phone verification and <a rel="noopener nofollow" href="https://firebase.google.com">Google Firebase</a> for push notifications</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://devpost.com/software/messenger-app-android-sms-filter">Devpost</a>
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://github.com/andrewkdinh/aja">GitHub</a>
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="aja-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img loading="lazy" class="d-block w-100" src="img/aja-3.png" alt="AJA Messenger">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/aja-2.png" alt="AJA Messenger">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#aja-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#aja-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <article class="topic-box" id="cortical">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/cortical.png" alt="Cortical logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Cortical</h3>
+                        <p class="topic-box-subtitle">Chrome extension to extract keywords from search results</p>
+                        <p class="topic-box-subtitle-small">HTML, JavaScript, Docker, Python, Flask</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Created a highly customizable extension which categorizes search results into different topics based on its contents</li>
+                        <li>Currently supports the <a rel="noopener nofollow" href="https://www.cortical.io">Cortical</a> API and a custom Bing search scraper that classifies results using Latent Dirichlet Allocation (LDA)</li>
+                        <li>With minimal setup, the LDA backend can be self-hosted on any machine using Docker</li>
+                        <li>Supported search engines include Google, DuckDuckGo, Bing, and Qwant</li>
+                    </ul>
+                </div>
+                <div class="carousel-slide-outer">
+                    <div id="cortical-carousel-controls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img loading="lazy" class="d-block w-100" src="img/cortical-1.png" alt="Cortical">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/cortical-5.png" alt="Cortical">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/cortical-3.png" alt="Cortical">
+                            </div>
+                            <div class="carousel-item">
+                                <img loading="lazy" class="d-block w-100" src="img/cortical-6.png" alt="Cortical">
+                            </div>
+                        </div>
+                        <a target="_self" class="carousel-control-prev" href="#cortical-carousel-controls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a target="_self" class="carousel-control-next" href="#cortical-carousel-controls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+-->
+    </section>
+    <section class="topic-outer" id="competitions">
+        <h2 class="topic-header">Competitions</h2>
+        <hr class="topic-header-line">
+        <div class="topic">
+            <article class="topic-box" id="allium-hacks">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/allium-hacks.png" alt="Allium Hacks icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Allium Hacks</h3>
+                        <p class="topic-box-subtitle">Coding competition</p>
+                        <p class="topic-box-subtitle-small">Gilroy | 1st Place</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Web application that allowed users to have real-time, collaborative conversations with an artificial intelligence implementation named Jade</li>
+                        <li>WebSockets and Flask were used to create a seamless conversation with Jade AI</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://github.com/JEF1056/Jv6">Jade AI</a>
+                </div>
+            </article>
+            <article class="topic-box" id="cyberpatriot">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/cyberpatriot.png" alt="CyberPatriot icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Cyber<wbr>Patriot</h3>
+                        <p class="topic-box-subtitle">Cybersecurity competition</p>
+                        <p class="topic-box-subtitle-small">San Jose | 3rd place</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Worked in a mock scenario to upgrade the infrastructure of a company that had recently suffered a data breach</li>
+                        <li>Implemented best security and operational practices while maintaining the specific company settings, software and data intact</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://www.uscyberpatriot.org/Pages/COEs/Bay-Area-Community-College-Consortium.aspx">Homepage</a>
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://www.gavilan.edu/academic/csis/stoykov/BARC2019.php">News</a>
+                </div>
+            </article>
+        </div>
+        <div class="topic">
+            <article class="topic-box" id="cal-hacks">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/cal-hacks.png" alt="Cal Hacks icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Cal Hacks 6.0</h3>
+                        <p class="topic-box-subtitle">World’s largest collegiate hackathon</p>
+                        <p class="topic-box-subtitle-small">UC Berkeley</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Created <a rel="noopener" href="https://github.com/andrewkdinh/aja">AJA Messenger</a>, an Android app which filters spam using machine learning</li>
+                        <li>Collaborated with companies like Google and Facebook, utilizing their existing technologies to create our own mobile application</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://calhacks.io/">Homepage</a>
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://github.com/andrewkdinh/aja">Product</a>
+                </div>
+            </article>
+            <article class="topic-box" id="ccic">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/ccic.png" alt="California Cyber Innovation Challenge logo">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">California Cyber Innovation Challenge</h3>
+                        <p class="topic-box-subtitle">Cybersecurity competition</p>
+                        <p class="topic-box-subtitle-small">Cal Poly, San Luis Obispo</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Collected and analyzed a combination of digital and physical evidence in order to stop a healthcare themed cyber plot</li>
+                        <li>Utilized state-of-the-art forensive tools including <a rel="noopener" href="https://www.wireshark.org/">Wireshark</a> and <a rel="noopener nofollow" href="https://portswigger.net/burp">Burp Suite</a> to extract and collect digital evidence</li>
+                        <li>Used a combination of technical, analytical and persuasive skills to "prove our case" to a panel of judges</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://cci.calpoly.edu/events/ccic/2019">Homepage</a>
+                    <!-- <a rel="noopener" class="btn btn-outline-info" href="https://cci.calpoly.edu/cal-poly-hosts-statewide-cybersecurity-championship-29-student-teams">News</a> -->
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="topic-outer" id="skills">
+        <h2 class="topic-header">Skills</h2>
+        <hr class="topic-header-line">
+        <div class="column-topic-group">
+            <div class="column-topic">
+                <article class="column-topic-box" id="programming">
+                    <header class="column-topic-box-main">
+                        <div class="column-topic-box-icon">
+                            <img loading="lazy" src="img/programming.png" alt="Programming languages icon">
+                        </div>
+                        <div class="column-topic-box-text">
+                            <h3 class="column-topic-box-title">Languages</h3>
+                        </div>
+                    </header>
+                    <div class="column-topic-box-description">
+                        <ul>
+                            <li>Python</li>
+                            <li>Java</li>
+                            <li>C</li>
+                            <li>Go</li>
+                            <li>Rust</li>
+                            <li>OCaml</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="column-topic-box" id="software">
+                    <header class="column-topic-box-main">
+                        <div class="column-topic-box-icon">
+                            <img loading="lazy" src="img/software.png" alt="Software icon">
+                        </div>
+                        <div class="column-topic-box-text">
+                            <h3 class="column-topic-box-title">Software</h3>
+                        </div>
+                    </header>
+                    <div class="column-topic-box-description">
+                        <ul>
+                            <li>Docker</li>
+                            <li>Linux</li>
+                            <li>Nginx</li>
+                            <li>Apache</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="column-topic">
+                <article class="column-topic-box" id="webdev">
+                    <header class="column-topic-box-main">
+                        <div class="column-topic-box-icon">
+                            <img loading="lazy" src="img/webdev.png" alt="Web development icon">
+                        </div>
+                        <div class="column-topic-box-text">
+                            <h3 class="column-topic-box-title">Web Development</h3>
+                        </div>
+                    </header>
+                    <div class="column-topic-box-description">
+                        <ul>
+                            <li>HTML</li>
+                            <li>JavaScript</li>
+                            <li>jQuery</li>
+                            <li>Bootstrap</li>
+                            <li>SQL</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="column-topic-box" id="other-skills">
+                    <header class="column-topic-box-main">
+                        <div class="column-topic-box-icon">
+                            <img loading="lazy" src="img/other-skills.png" alt="Other skills icon">
+                        </div>
+                        <div class="column-topic-box-text">
+                            <h3 class="column-topic-box-title">Other</h3>
+                        </div>
+                    </header>
+                    <div class="column-topic-box-description">
+                        <ul>
+                            <li>Browser extensions</li>
+                            <li>LaTeX</li>
+                            <li>Google Suite</li>
+                            <li>Microsoft Office</li>
+                            <li>Cybersecurity</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <section class="topic-outer" id="interests">
+        <h2 class="topic-header">Interests</h2>
+        <hr class="topic-header-line">
+        <div class="topic">
+            <article class="topic-box" id="volunteer">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/volunteer.png" alt="Volunteer icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Volunteering</h3>
+                        <p class="topic-box-subtitle">OCF | Circle K | JPOG</p>
+                        <p class="topic-box-subtitle-small">Helping the community, one step at a time</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li><b><abbr title="Open Computing Facility">OCF</abbr></b>: Student organization dedicated to free computing for all UC Berkeley students, faculty, and staff</li>
+                        <li><b>Circle K</b>: Student-led organization dedicated to service, leadership, and fellowship</li>
+                        <li><b><abbr title="Junior Philanthropists of Gilroy">JPOG</abbr></b>: A free, weekly tutoring program teaching subjects including Spanish, piano, and computer programming</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="https://www.ocf.berkeley.edu/">OCF</a>
+                    <a rel="noopener nofollow" class="btn btn-outline-info" href="https://cki.berkeley.edu/">Circle K</a>
+                </div>
+            </article>
+            <article class="topic-box" id="privacy">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/privacy.png" alt="Privacy icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Privacy</h3>
+                        <p class="topic-box-subtitle">Your data is yours alone</p>
+                        <p class="topic-box-subtitle-small">Defend against surveillance</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Taught a class at UC Berkeley about digital privacy</li>
+                        <li>Advises others in securing their online identities from nefarious actors</li>
+                        <li>Strong proponent of freedom of speech as well as against online censorship</li>
+                        <li>Supports open source projects and privacy-conscious services</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="https://privacy-decal.com/">Digital Privacy DeCal</a>
+                    <a rel="noopener" class="btn btn-outline-info" href="https://www.privacytools.io/">PrivacyTools</a>
+                </div>
+            </article>
+        </div>
+        <div class="topic">
+            <article class="topic-box" id="open-source">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/open-source.png" alt="Open source icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Open Source Software</h3>
+                        <p class="topic-box-subtitle">Contributor</p>
+                        <p class="topic-box-subtitle-small">Git</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Donates to open source projects on a monthly basis</li>
+                        <li>Contributes to free and open source software</li>
+                        <li>Proponent of copy-left licenses such as GPL</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="https://opencollective.com/andrewkdinh">Open Collective</a>
+                    <a rel="noopener" class="btn btn-outline-info" href="https://opensource.org/">Open Source Initiative</a>
+                </div>
+            </article>
+            <article class="topic-box" id="photography">
+                <header class="topic-box-main">
+                    <div class="topic-box-icon">
+                        <img loading="lazy" src="img/photography.png" alt="Photography icon">
+                    </div>
+                    <div class="topic-box-text">
+                        <h3 class="topic-box-title">Photography</h3>
+                        <p class="topic-box-subtitle">Amateur photographer</p>
+                        <p class="topic-box-subtitle-small">Lightroom, Photoshop, GIMP</p>
+                    </div>
+                </header>
+                <div class="topic-box-description">
+                    <ul>
+                        <li>Experienced with landscape and portrait photography</li>
+                        <li>Takes picture using a Canon EOS Rebel T3 DSLR camera</li>
+                    </ul>
+                </div>
+                <div class="topic-box-links">
+                    <a rel="noopener" class="btn btn-outline-info" href="photography-sub/index/">Portfolio</a>
+                </div>
+            </article>
+        </div>
+    </section>
+    </div>
+    </main>
+    <footer>
+        <div id="main-frame-error" class="interstitial-wrapper __wrapper">
+            <h3 id="dino-title">Dino Game</h3>
+            <p id="dino-text"></p>
+        </div>
+        <div id="footer-main">
+            <div id="footer-text">
+                <div id="webrings">
+                    <div id="geekring">
+                        <a rel="noopener nofollow" href="https://geekring.net/site/42/previous">←</a>
+                        <a class="underline" rel="noopener nofollow" href="https://geekring.net/">geekring</a>
+                        <a rel="noopener nofollow" href="https://geekring.net/site/42/next">→</a>
+                    </div>
+                    <div id="hotline-webring">
+                        <a rel="noopener nofollow" href="https://hotlinewebring.club/andrewkdinh/previous">←</a>
+                        <a class="underline" rel="noopener nofollow" href="https://hotlinewebring.club/">Hotline Webring</a>
+                        <a rel="noopener nofollow" href="https://hotlinewebring.club/andrewkdinh/next">→</a>
+                    </div>
+                    <div id="retronaut-webring">
+                        <a rel="noopener nofollow" href="https://webring.dinhe.net/prev/https://andrewkdinh.com">←</a>
+                        <a class="underline" rel="noopener nofollow" href="https://webring.dinhe.net/">Retronaut Webring</a>
+                        <a rel="noopener nofollow" href="https://webring.dinhe.net/next/https://andrewkdinh.com">→</a>
+                    </div>
+                    <!--
+                    <div id="static-webring">
+                        <a rel="noopener nofollow" href="https://static-site-webring.jamesg.blog/previous">←</a>
+                        <a rel="noopener nofollow" href="https://static-site-webring.jamesg.blog/">Static Site Webring</a>
+                        <a rel="noopener nofollow" href="https://static-site-webring.jamesg.blog/next">→</a>
+                    </div>
+                    -->
+                    <div id="indieweb-webring">
+                        <a rel="noopener nofollow" href="https://🕸💍.ws/🍤▪️🎢/previous">←</a>
+                        <a class="underline" rel="noopener nofollow" href="https://🕸💍.ws/">🕸💍 – An IndieWeb Webring</a>
+                        <a rel="noopener nofollow" href="https://🕸💍.ws/🍤▪️🎢/next">→</a>
+                    </div>
+                    <div id="fediring-webring">
+                        <a rel="noopener nofollow" href="https://fediring.net/previous?host=andrewkdinh.com">←</a>
+                        <a class="underline" rel="noopener nofollow" href="https://fediring.net/">Fediring</a>
+                        <a rel="noopener nofollow" href="https://fediring.net/next?host=andrewkdinh.com">→</a>
+                    </div>
+                </div>
+                <div>
+                    <p id="footer-copyright">© 2022 Andrew Dinh</p>
+                    <p><a class="underline" rel="noopener" href="contact-sub/index/">Contact Form</a></p>
+                    <p><a class="underline" href="licenses/" id="licenses">Licenses</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="offline-resources" aria-hidden="true">
+        <img class="dino-lazy" id="offline-resources-1x" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img/offline-sprite-1x.png" alt="Dino Chrome Online Game Sprite 1">
+        <img class="dino-lazy" id="offline-resources-2x" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="img/offline-sprite-2x.png" alt="Dino Chrome Online Game Sprite 2">
+    </div>
+    <!-- https://kevq.uk/how-to-create-an-indieweb-profile/ -->
+    <!-- https://indiewebify.me/validate-h-card/ -->
+    <div class="h-card vcard" aria-hidden="true">
+        <!-- About me -->
+        <span class="p-name fn">Andrew Dinh</span>
+        <!-- <span class="p-honorific-prefix">Mr.</span> -->
+        <span class="p-given-name given-name">Andrew</span>
+        <span class="p-additional-name additional-name">K.</span>
+        <span class="p-family-name family-name">Dinh</span>
+        <span class="p-nickname nickname">andrewkdinh</span>
+        <span class="p-sex">Male</span>
+        <!-- <span class="p-sort-string">Andrew Dinh</span> -->
+        <span class="p-job-title title">Software Engineer</span>
+        <span class="p-note note">Software engineer developing a better feature. My interests include photography, privacy, & open source software.</span>
+        <!-- Pictures -->
+        <img class="u-logo logo" alt="Logo" loading="lazy" src="img/logo.png">
+        <img class="u-photo photo" loading="lazy" alt="Profile" src="img/profile.webp">
+        <!-- My location -->
+        <span class="p-region region">California</span>
+        <span class="p-country-name country-name">United States</span>
+        <!-- Links -->
+        <a class="u-url u-uid url uid" href="/"></a>
+        <a class="u-url url" rel="me" href="https://github.com/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://www.linkedin.com/in/andrewkdinh-com"></a>
+        <a class="u-url url" rel="me" href="https://www.instagram.com/andrewkdinh/"></a>
+        <a class="u-url url" rel="me" href="https://www.facebook.com/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://twitter.com/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://news.ycombinator.com/user?id=andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://www.producthunt.com/@andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://www.indiehackers.com/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://dev.to/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://gitlab.com/andrewkdinh"></a>
+        <a class="u-url url" rel="me" href="https://fosstodon.org/@andrewkdinh"></a>
+        <!-- Categories -->
+        <span class="p-category category">Open Source Software</span>
+        <span class="p-category category">Privacy</span>
+        <span class="p-category category">Web Design</span>
+        <span class="p-category category">Self-hosted</span>
+        <span class="p-category category">Docker</span>
+        <span class="p-category category">Programming</span>
+        <span class="p-category category">Photography</span>
+    </div>
+<center><font size="2">This is the free demo result. You can also download a <a href="http://www.waybackmachinedownloads.com">complete website</a> from <a href="https://archive.org">archive.org</a>.</font></center></body>
+</html>

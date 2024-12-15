@@ -1,0 +1,31 @@
+# Add a trailing slash (/) to a URL
+rewrite ^([^.]*[^/])$ $1/ permanent;
+
+# Specific redirections
+
+# Create pretty URLs
+rewrite ^/([^/]+)/$ /$1.html last;
+rewrite ^/([^/]+)/([^/]+)/$ /$1/$2.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5/$6.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5/$6/$7.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5/$6/$7/$8.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5/$6/$7/$8/$9.html last;
+rewrite ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3/$4/$5/$6/$7/$8/$9/$10.html last;
+# End: Create pretty URLs
+
+# Redirect all extensions to html
+if ($is_args = ''){
+	rewrite ^([^.]*)\.shtml$ $1.html permanent;
+	rewrite ^([^.]*)\.phtml$ $1.html permanent;
+	rewrite ^([^.]*)\.jhtml$ $1.html permanent;
+	rewrite ^([^.]*)\.htm$ $1.html permanent;
+	rewrite ^([^.]*)\.php$ $1.html permanent;
+	rewrite ^([^.]*)\.aspx$ $1.html permanent;
+	rewrite ^([^.]*)\.asp$ $1.html permanent;
+	rewrite ^([^.]*)\.jsp$ $1.html permanent;
+	rewrite ^([^.]*)\.apk$ $1.html permanent;
+}
+# End: Redirect all extensions to html

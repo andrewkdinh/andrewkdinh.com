@@ -1,0 +1,520 @@
+<span class="hljs-keyword">use</span> std::fs::File;
+<span class="hljs-keyword">use</span> std::io::{BufRead, BufReader};
+<span class="hljs-keyword">use</span> std::cmp::{min, max};
+<span class="hljs-keyword">use</span> std::path::Path;
+
+<span class="hljs-keyword">use</span> super::piece_table::PieceTable;
+
+<span class="hljs-comment">/// An editor window</span>
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Editor</span> {
+    <span class="hljs-comment">/// The piece table</span>
+    piece_table: PieceTable,
+    <span class="hljs-comment">/// Index we are currently at in `self.piece_table` (0-indexed)</span>
+    pt_index: <span class="hljs-type">usize</span>,
+    <span class="hljs-comment">/// Path of file being editing (may not yet exist). </span>
+    <span class="hljs-comment">/// Empty string if no file specified</span>
+    file_path: <span class="hljs-type">String</span>,
+    <span class="hljs-comment">/// Reader of the file (Error if is an nonexistent file)</span>
+    reader: <span class="hljs-type">Result</span>&lt;BufReader&lt;File&gt;, <span class="hljs-type">String</span>&gt;,
+    <span class="hljs-comment">/// Whether we have read all of `self.reader`</span>
+    eof_reached: <span class="hljs-type">bool</span>,
+    <span class="hljs-comment">/// Represents each line of the editor, and how many characters are in that line</span>
+    lines: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+    <span class="hljs-comment">/// Row cursor is at (1-indexed)</span>
+    row: <span class="hljs-type">usize</span>,
+    <span class="hljs-comment">/// Column cursor is at (1-indexed)</span>
+    col: <span class="hljs-type">usize</span>,
+    <span class="hljs-comment">/// Column cursor we want (1-indexed). When we move vertically, from a long </span>
+    <span class="hljs-comment">/// line to short one, we want to try to get to a specific column</span>
+    col_want: <span class="hljs-type">usize</span>,
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Editor</span> {
+    <span class="hljs-comment">/// Initialize a new editor from a file path (read a single line)</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(file_path: <span class="hljs-type">String</span>) <span class="hljs-punctuation">-&gt;</span> Editor {
+        <span class="hljs-comment">// let (reader, eof_reached) = create_reader(file_path);</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">reader</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">eof_reached</span>;
+        <span class="hljs-keyword">if</span> file_path == <span class="hljs-string">""</span> {
+            reader = <span class="hljs-title function_ invoke__">Err</span>(<span class="hljs-string">"No file specified"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+            eof_reached = <span class="hljs-literal">true</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> Path::<span class="hljs-title function_ invoke__">new</span>(&amp;file_path).<span class="hljs-title function_ invoke__">is_file</span>() {
+            reader = <span class="hljs-title function_ invoke__">Ok</span>(BufReader::<span class="hljs-title function_ invoke__">new</span>(File::<span class="hljs-title function_ invoke__">open</span>(file_path.<span class="hljs-title function_ invoke__">clone</span>()).<span class="hljs-title function_ invoke__">unwrap</span>()));
+            eof_reached = <span class="hljs-literal">false</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> Path::<span class="hljs-title function_ invoke__">new</span>(&amp;file_path).<span class="hljs-title function_ invoke__">is_dir</span>() || file_path.<span class="hljs-title function_ invoke__">ends_with</span>(<span class="hljs-string">"/"</span>) {
+            <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"No support (yet) for writing to directories"</span>);
+        } <span class="hljs-keyword">else</span> {
+            reader = <span class="hljs-title function_ invoke__">Err</span>(<span class="hljs-string">"File doesn't exist"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+            eof_reached = <span class="hljs-literal">true</span>;
+        }
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor {piece_table: PieceTable::<span class="hljs-title function_ invoke__">new</span>(),
+            pt_index: <span class="hljs-number">0</span>,
+            file_path: file_path,
+            reader: reader,
+            eof_reached: eof_reached,
+            lines: Vec::<span class="hljs-title function_ invoke__">new</span>(),
+            row: <span class="hljs-number">1</span>,
+            col: <span class="hljs-number">1</span>,
+            col_want: <span class="hljs-number">1</span>,
+        };
+        <span class="hljs-keyword">if</span> editor.<span class="hljs-title function_ invoke__">read_lines</span>(<span class="hljs-number">1</span>) == <span class="hljs-number">0</span> {
+            editor.lines.<span class="hljs-title function_ invoke__">push</span>(<span class="hljs-number">0</span>);
+        } <span class="hljs-keyword">else</span> {
+            editor.lines.<span class="hljs-title function_ invoke__">push</span>(editor.piece_table.<span class="hljs-title function_ invoke__">text_len</span>());
+        }
+        editor
+    }
+
+    <span class="hljs-comment">/// Returns visible text</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">text</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-type">str</span> {
+        <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">text</span>()
+    }
+
+    <span class="hljs-comment">/// Returns file path</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">file_path</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-type">str</span> {
+        <span class="hljs-keyword">self</span>.file_path.<span class="hljs-title function_ invoke__">as_str</span>()
+    }
+
+    <span class="hljs-comment">/// Update the file path</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">update_file_path</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, file_path: <span class="hljs-type">String</span>) {
+        <span class="hljs-keyword">self</span>.file_path = file_path;
+    }
+
+    <span class="hljs-comment">/// Returns the current row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">row</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        <span class="hljs-keyword">self</span>.row
+    }
+
+    <span class="hljs-comment">/// Returns the current column</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">col</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        <span class="hljs-keyword">self</span>.col
+    }
+
+    <span class="hljs-comment">/// Returns the number of columns in the specified `row` (1-indexed)</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">num_cols</span>(&amp;<span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        *<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
+    }
+
+    <span class="hljs-comment">/// Returns the number of lines</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">num_lines</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>()
+    }
+
+    <span class="hljs-comment">/// Returns the length of the line (1-indexed)</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">line_len</span>(&amp;<span class="hljs-keyword">self</span>, line: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        *<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(line - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
+    }
+
+    <span class="hljs-comment">/// Returns whether the text of the file matches the text of `self.piece_table`</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">text_matches</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
+        !<span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">actions_taken</span>()
+    }
+
+    <span class="hljs-comment">/// Returns visible text from line `first` (inclusive) to `last` (exclusive)</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">text_lines</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, first: <span class="hljs-type">usize</span>, last: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-type">str</span> {
+        <span class="hljs-keyword">if</span> first &gt;= last {
+            <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"First row ({}) must be less last ({})"</span>, first, last);
+        }
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">start_index</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">end_index</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-title function_ invoke__">for</span> (i, line) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+            <span class="hljs-keyword">if</span> i &lt; first - <span class="hljs-number">1</span> {
+                start_index += line + <span class="hljs-number">1</span>;
+                end_index = start_index;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> i &gt;= last - <span class="hljs-number">1</span> {
+                <span class="hljs-keyword">break</span>
+            } <span class="hljs-keyword">else</span> {
+                end_index += line + <span class="hljs-number">1</span>;
+            }
+        }
+        <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">text</span>().<span class="hljs-title function_ invoke__">get</span>(start_index..end_index - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
+    }
+
+    <span class="hljs-comment">/// Returns the visible text for a single row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">text_line</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, line: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-type">str</span> {
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">text_lines</span>(line, line + <span class="hljs-number">1</span>)
+    }
+
+    <span class="hljs-comment">/// Adds `text` at the current cursor position</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">add_text</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, text: <span class="hljs-type">String</span>) {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">from_end</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">num_lines</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">text_len</span> = text.<span class="hljs-title function_ invoke__">len</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">last_line_len</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-title function_ invoke__">for</span> (i, line) <span class="hljs-keyword">in</span> text.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">'\n'</span>).<span class="hljs-title function_ invoke__">enumerate</span>() {
+            <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span> {
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">curr_line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get_mut</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+                from_end = *curr_line_len + <span class="hljs-number">1</span> - <span class="hljs-keyword">self</span>.col;
+                <span class="hljs-keyword">if</span> text.<span class="hljs-title function_ invoke__">contains</span>(<span class="hljs-string">'\n'</span>) {
+                    *curr_line_len -= from_end;
+                }
+                *curr_line_len += line.<span class="hljs-title function_ invoke__">len</span>();
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.row + i &gt;= <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>() {
+                <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">push</span>(line.<span class="hljs-title function_ invoke__">len</span>() + from_end);
+                from_end = <span class="hljs-number">0</span>;
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">insert</span>(<span class="hljs-keyword">self</span>.row + i, line.<span class="hljs-title function_ invoke__">len</span>() + from_end);
+                from_end = <span class="hljs-number">0</span>;
+            }
+            num_lines += <span class="hljs-number">1</span>;
+            last_line_len = line.<span class="hljs-title function_ invoke__">len</span>();
+        }
+        <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">add_text</span>(text, <span class="hljs-keyword">self</span>.pt_index);
+        <span class="hljs-keyword">if</span> num_lines == <span class="hljs-number">1</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">right</span>(text_len);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">down</span>(num_lines - <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_col</span>(last_line_len + <span class="hljs-number">1</span>);
+        }
+    }
+
+    <span class="hljs-comment">/// Deletes from current cursor position to (row, col) which are 1-indexed</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">delete_text</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>, col: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), <span class="hljs-type">String</span>&gt; {
+        <span class="hljs-keyword">if</span> row == <span class="hljs-keyword">self</span>.row {
+            <span class="hljs-keyword">if</span> row == <span class="hljs-keyword">self</span>.row &amp;&amp; col == <span class="hljs-keyword">self</span>.col {
+                <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(())
+                <span class="hljs-comment">// return Err("No text to delete".to_string());</span>
+            }
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get_mut</span>(row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">first_col</span> = <span class="hljs-title function_ invoke__">min</span>(<span class="hljs-keyword">self</span>.col, col);
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">last_col</span> = <span class="hljs-keyword">if</span> first_col == <span class="hljs-keyword">self</span>.col {col} <span class="hljs-keyword">else</span> {<span class="hljs-keyword">self</span>.col};
+            <span class="hljs-keyword">if</span> last_col &gt; *line_len + <span class="hljs-number">1</span> {
+                <span class="hljs-comment">// panic!("Can't delete from {} to {} of line length {}", first_col, last_col, *line_len);</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(<span class="hljs-built_in">format!</span>(<span class="hljs-string">"Can't delete from {} to {} of line length {}"</span>, first_col, last_col, *line_len))
+            }
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = last_col - first_col;
+            *(line_len) -= len;
+            <span class="hljs-keyword">if</span> first_col == <span class="hljs-keyword">self</span>.col {
+                <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-keyword">self</span>.pt_index, <span class="hljs-keyword">self</span>.pt_index + len);
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-keyword">self</span>.pt_index - len, <span class="hljs-keyword">self</span>.pt_index);
+                <span class="hljs-keyword">self</span>.col -= len;
+                <span class="hljs-keyword">self</span>.col_want = <span class="hljs-keyword">self</span>.col;
+            }
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(())
+        }
+
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">size</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">first_row</span> = <span class="hljs-title function_ invoke__">min</span>(<span class="hljs-keyword">self</span>.row, row);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">first_col</span> = <span class="hljs-keyword">if</span> first_row == <span class="hljs-keyword">self</span>.row {<span class="hljs-keyword">self</span>.col} <span class="hljs-keyword">else</span> {col};
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">last_row</span> = <span class="hljs-keyword">if</span> first_row == <span class="hljs-keyword">self</span>.row {row} <span class="hljs-keyword">else</span> {<span class="hljs-keyword">self</span>.row};
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">last_col</span> = <span class="hljs-keyword">if</span> first_row == <span class="hljs-keyword">self</span>.row {col} <span class="hljs-keyword">else</span> {<span class="hljs-keyword">self</span>.col};
+
+        <span class="hljs-keyword">if</span> last_row == usize::MAX {
+            <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Don't actually read to end of file. Just pretend you did</span>
+            <span class="hljs-comment">// If you do this, you have to update undo and redo to update self.eof_reached</span>
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">read_to_eof</span>()
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">read_lines</span>(<span class="hljs-title function_ invoke__">max</span>(<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>(), row) - <span class="hljs-title function_ invoke__">min</span>(<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>(), row));
+        }
+        
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">first_line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get_mut</span>(first_row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">if</span> first_col &gt; *first_line_len + <span class="hljs-number">1</span> {
+            <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Invalid beginning column {} for row {}"</span>, first_col, first_row);
+        }
+        size += *first_line_len + <span class="hljs-number">1</span> - (first_col - <span class="hljs-number">1</span>);
+        *first_line_len -= *first_line_len - (first_col - <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">first_line_len_copy</span> = *first_line_len;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">to_last_row</span> = last_row == <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>();
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> first_row + <span class="hljs-number">1</span>..last_row {
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">remove</span>(first_row);
+            size += line_len + <span class="hljs-number">1</span>;
+        }
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">last_line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get_mut</span>(last_row - (last_row - first_row) - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">if</span> last_col - <span class="hljs-number">1</span> &gt; *last_line_len {
+            <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Invalid ending column {} for row {}"</span>, last_col, last_row);
+        }
+        *(last_line_len) -= last_col - <span class="hljs-number">1</span>;
+        size += last_col - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> to_last_row {
+            <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">pop</span>();
+        }
+        <span class="hljs-keyword">if</span> first_row == <span class="hljs-keyword">self</span>.row {
+            <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-keyword">self</span>.pt_index, <span class="hljs-keyword">self</span>.pt_index + size);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-keyword">self</span>.pt_index - size, <span class="hljs-keyword">self</span>.pt_index);
+            <span class="hljs-keyword">self</span>.row = first_row;
+            <span class="hljs-keyword">self</span>.col = first_line_len_copy;
+            <span class="hljs-keyword">self</span>.col_want = <span class="hljs-keyword">self</span>.col;
+        }
+        <span class="hljs-title function_ invoke__">Ok</span>(())
+    }
+
+    <span class="hljs-comment">/// Delete all text</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">delete_all</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">text_len</span>() == <span class="hljs-number">0</span> {
+            <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-number">0</span>, <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">text_len</span>());
+        <span class="hljs-keyword">self</span>.row = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">self</span>.col = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">self</span>.col_want = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">self</span>.pt_index = <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">delete_to_end</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">delete_text</span>(usize::MAX, usize::MAX).<span class="hljs-title function_ invoke__">unwrap</span>();
+    }
+
+    <span class="hljs-comment">/// Read `num_lines` from `reader`, updating `self.piece_table` &amp; `self.lines`</span>
+    <span class="hljs-comment">/// Returns number of lines actually read</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_lines</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, num_lines: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+        <span class="hljs-keyword">if</span> num_lines == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.eof_reached {
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        }
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines_read</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">reader</span> = <span class="hljs-keyword">self</span>.reader.<span class="hljs-title function_ invoke__">as_mut</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..num_lines {
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">temp_str</span> = String::<span class="hljs-title function_ invoke__">new</span>();
+            <span class="hljs-keyword">match</span> reader.<span class="hljs-title function_ invoke__">read_line</span>(&amp;<span class="hljs-keyword">mut</span> temp_str) {
+                <span class="hljs-title function_ invoke__">Ok</span>(<span class="hljs-number">0</span>) =&gt; {
+                    <span class="hljs-keyword">self</span>.eof_reached = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>
+                },
+                <span class="hljs-title function_ invoke__">Ok</span>(len) =&gt; {
+                    lines_read += <span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">push</span>(len);
+                    <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">update_original_buffer</span>(temp_str);
+                },
+                <span class="hljs-title function_ invoke__">Err</span>(e) =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Error reading file: {:?}"</span>, e),
+            }
+        }
+        lines_read
+    }
+
+    <span class="hljs-comment">/// Read to EOF, updating `self.piece_table` &amp; `self.lines`</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_to_eof</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.eof_reached {
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">reader</span> = <span class="hljs-keyword">self</span>.reader.<span class="hljs-title function_ invoke__">as_mut</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">loop</span> {
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">temp_str</span> = String::<span class="hljs-title function_ invoke__">new</span>();
+            <span class="hljs-keyword">match</span> reader.<span class="hljs-title function_ invoke__">read_line</span>(&amp;<span class="hljs-keyword">mut</span> temp_str) {
+                <span class="hljs-title function_ invoke__">Ok</span>(<span class="hljs-number">0</span>) =&gt; {
+                    <span class="hljs-keyword">self</span>.eof_reached = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>
+                },
+                <span class="hljs-title function_ invoke__">Ok</span>(len) =&gt; {
+                    <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">push</span>(len);
+                    <span class="hljs-keyword">self</span>.piece_table.<span class="hljs-title function_ invoke__">update_original_buffer</span>(temp_str);
+                },
+                <span class="hljs-title function_ invoke__">Err</span>(e) =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">"Error reading file: {:?}"</span>, e),
+            }
+        }
+    }
+
+    <span class="hljs-comment">/// Move the cursor up `num` places</span>
+    <span class="hljs-comment">/// If unable to go up all the way, go to first row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">up</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, num: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">if</span> num == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.row == <span class="hljs-number">1</span> {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> num &gt;= <span class="hljs-keyword">self</span>.row {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">up</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">self</span>.pt_index -= <span class="hljs-keyword">self</span>.col;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..num {
+            <span class="hljs-keyword">self</span>.pt_index -= <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - i - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span>;
+        }
+        <span class="hljs-keyword">self</span>.row -= num;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">line_cols</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">self</span>.col = <span class="hljs-title function_ invoke__">min</span>(<span class="hljs-keyword">self</span>.col_want, line_cols + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">self</span>.pt_index -= line_cols + <span class="hljs-number">1</span> - <span class="hljs-keyword">self</span>.col;
+    }
+
+    <span class="hljs-comment">/// Move the cursor down `num` places.</span>
+    <span class="hljs-comment">/// If unable to go all the way down, go to last row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">down</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, num: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">if</span> num == <span class="hljs-number">0</span> {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.row + num &gt; <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>() {
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">lines_read</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">read_lines</span>(<span class="hljs-keyword">self</span>.row + num - <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>());
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">down</span>(lines_read);
+            <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">self</span>.pt_index += <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span> - <span class="hljs-keyword">self</span>.col + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..num {
+            <span class="hljs-keyword">self</span>.pt_index += <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row + i - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span>;
+        }
+        <span class="hljs-keyword">self</span>.row += num;
+        <span class="hljs-keyword">self</span>.col = <span class="hljs-title function_ invoke__">min</span>(<span class="hljs-keyword">self</span>.col_want, <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">self</span>.pt_index += <span class="hljs-keyword">self</span>.col - <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-comment">/// Move the cursor right `num` places.</span>
+    <span class="hljs-comment">/// If unable to go all the way right, go to last column</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">right</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, num: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">line_len</span> = <span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-keyword">if</span> num == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.col == line_len + <span class="hljs-number">1</span> {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.col + num &gt; line_len + <span class="hljs-number">1</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_last_col</span>();
+            <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">self</span>.col += num;
+        <span class="hljs-keyword">self</span>.pt_index += num;
+        <span class="hljs-keyword">self</span>.col_want = <span class="hljs-keyword">self</span>.col;
+    }
+
+    <span class="hljs-comment">/// Move the cursor left `num` places.</span>
+    <span class="hljs-comment">/// If unable to go all the way left, go to first column</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">left</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, num: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">if</span> num == <span class="hljs-number">0</span> {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> num &gt;= <span class="hljs-keyword">self</span>.col {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">left</span>(<span class="hljs-keyword">self</span>.col - <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">return</span>
+        }
+        <span class="hljs-keyword">self</span>.col -= num;
+        <span class="hljs-keyword">self</span>.pt_index -= num;
+        <span class="hljs-keyword">self</span>.col_want = <span class="hljs-keyword">self</span>.col;
+    }
+
+    <span class="hljs-comment">/// Move to a certain column in the current row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">goto_col</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, col: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">if</span> col &gt; *<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_last_col</span>();
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.col == col {
+            <span class="hljs-keyword">self</span>.col_want = col;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> col &lt; <span class="hljs-keyword">self</span>.col {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">left</span>(<span class="hljs-keyword">self</span>.col - col)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">right</span>(col - <span class="hljs-keyword">self</span>.col)
+        }
+    }
+
+    <span class="hljs-comment">/// Move to a certain row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">goto_row</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.row == row {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> row &lt; <span class="hljs-keyword">self</span>.row {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">up</span>(<span class="hljs-keyword">self</span>.row - row)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">down</span>(row - <span class="hljs-keyword">self</span>.row)
+        }
+    }
+
+    <span class="hljs-comment">/// Move to (closest) `row` and `col`</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">goto</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>, col: <span class="hljs-type">usize</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_row</span>(row);
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_col</span>(col);
+    }
+
+    <span class="hljs-comment">/// Move to the last column in the current row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">goto_last_col</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto_col</span>(*<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-keyword">self</span>.row - <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>() + <span class="hljs-number">1</span>)
+    }
+
+    <span class="hljs-comment">/// Move to the last row</span>
+    <span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">goto_last_row</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">read_to_eof</span>();
+        <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">goto</span>(<span class="hljs-keyword">self</span>.lines.<span class="hljs-title function_ invoke__">len</span>(), <span class="hljs-number">1</span>)
+    }
+}
+
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> tests {
+    <span class="hljs-keyword">use</span> super::*;
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">add_text</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">"hello"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(want_str.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"hello\nbye"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(want_str.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+    }
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">delete_text</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">""</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"abcd"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"ab\nef"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"ab\ncd\nef"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">goto</span>(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>);
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">num_lines</span>(), want_str.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>());
+    }
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">movement</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">"hello\nbye"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"hello\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">down</span>(<span class="hljs-number">1</span>);
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"bye"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"hello\nbye"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"h\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">down</span>(<span class="hljs-number">1</span>);
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"bye"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">up</span>(<span class="hljs-number">1</span>);
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"ello"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+    }
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">edge_cases</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">"hell"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"hello\n\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"hello"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"hello\n\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(<span class="hljs-number">1</span>, <span class="hljs-number">6</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+    }
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">more_cases</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">"hello\nbye"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"hello\n\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"bye"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">up</span>(<span class="hljs-number">2</span>);
+        editor.<span class="hljs-title function_ invoke__">goto_last_col</span>();
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(editor.<span class="hljs-title function_ invoke__">row</span>() + <span class="hljs-number">1</span>, <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+        <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{:?}"</span>, editor.lines);
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">num_lines</span>(), want_str.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>());
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"hellobye"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"hello\n\n"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"bye"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        editor.<span class="hljs-title function_ invoke__">up</span>(<span class="hljs-number">2</span>);
+        editor.<span class="hljs-title function_ invoke__">goto_last_col</span>();
+        editor.<span class="hljs-title function_ invoke__">delete_text</span>(editor.<span class="hljs-title function_ invoke__">row</span>() + <span class="hljs-number">2</span>, <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>();
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text</span>(), want_str);
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">num_lines</span>(), want_str.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>());
+    }
+
+    <span class="hljs-meta">#[test]</span>
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">text_lines</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">editor</span> = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">want_str</span> = <span class="hljs-string">"abc"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"abc"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text_lines</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), want_str);
+
+        editor = Editor::<span class="hljs-title function_ invoke__">new</span>(String::<span class="hljs-title function_ invoke__">new</span>());
+        want_str = <span class="hljs-string">"abc"</span>;
+        editor.<span class="hljs-title function_ invoke__">add_text</span>(<span class="hljs-string">"abc\n\ncd"</span>.<span class="hljs-title function_ invoke__">to_string</span>());
+        <span class="hljs-built_in">assert_eq!</span>(editor.<span class="hljs-title function_ invoke__">text_line</span>(<span class="hljs-number">1</span>), want_str);
+    }
+}
