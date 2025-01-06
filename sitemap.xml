@@ -4,12 +4,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
 			http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-	<!-- This is the sitemap for the free demo version. This is NOT a list of all pages that the paid version includes. The paid version has a larger sitemap. -->
-		
 		<url>
 			<loc>https://andrewkdinh.com</loc>
-		</url>
-		<url>
-			<loc>https://andrewkdinh.com/licenses/</loc>
 		</url>
 	</urlset>
