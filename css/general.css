@@ -619,6 +619,8 @@ footer {
 #uwu-less-link {
     color: #f2f1ef;
     text-decoration: underline;
+
+    margin-top: 3rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -753,16 +755,20 @@ footer {
     margin: 0 0.3rem;
 }
 
+#socials svg.icon-signal {
+    height: 29px;
+}
+
+#socials svg.icon-dino {
+    height: 28px;
+}
+
 #socials svg:hover {
     fill: #fff;
 }
 
 #mastodon-tooltip {
     bottom: 145%;
-}
-
-#dino-tooltip {
-    bottom: 105%;
 }
 
 #footer-text {
