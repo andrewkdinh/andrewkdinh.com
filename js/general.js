@@ -195,7 +195,7 @@ function oneko() {
 
         setTimeout(function() {
             nekoElTooltip.style.opacity = 0;
-        }, 13000)
+        }, 30000)
     } else {
         // document.getElementById('dino-text').textContent = "Press space to begin";
     }
