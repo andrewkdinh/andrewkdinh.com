@@ -115,7 +115,7 @@ async function onekoInit() {
                 if (onekoEl) {
                     onekoEl.remove();
                 }
-            }, 700)
+            }, 1000)
         } else {
             oneko();
             // onekoToggle.style.fill = "rgba(255, 255, 255, 0.75)";
@@ -196,8 +196,6 @@ function oneko() {
         setTimeout(function() {
             nekoElTooltip.style.opacity = 0;
         }, 30000)
-    } else {
-        // document.getElementById('dino-text').textContent = "Press space to begin";
     }
     document.body.appendChild(nekoEl);
 
